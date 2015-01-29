@@ -7,7 +7,7 @@ package trivia_game_xlet;
 
 /**
  *
- * @author student
+ * @author Nicolas THE Cock, Sophie Moons (and beyond)
  */
 public class Main {
 
