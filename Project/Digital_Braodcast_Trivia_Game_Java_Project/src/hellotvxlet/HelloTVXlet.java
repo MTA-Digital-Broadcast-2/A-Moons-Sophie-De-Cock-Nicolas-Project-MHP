@@ -73,6 +73,11 @@ public class HelloTVXlet implements Xlet, HActionListener {
      //MijnComponent
      MijnComponent achtergrondImage=new MijnComponent("bitmap1.jpeg", 200, 200, 300, 60);
      scene.add(achtergrondImage);
+     
+     //MijnTriviavraag (feitelijk moeten we dezelfde structuur als MijnComponent gebruiken denk ik, niet een volledige Xlet van maken)
+     //alhoewel het uiteraard interactief moet blijven... Misschien een soort switch van Xlet naar Xlet!
+     MijnTriviavraag mTriviavraag = new Triviavraag();
+     scene.add(mTriviavraag); //marcheert natuurlijk ni zo BI
     }
 
     public void startXlet() {

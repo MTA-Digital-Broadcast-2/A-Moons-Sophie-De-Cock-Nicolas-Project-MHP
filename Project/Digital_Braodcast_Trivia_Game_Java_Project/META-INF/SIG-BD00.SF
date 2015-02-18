@@ -1,14 +1,29 @@
 Signature-Version: 1.0
 Created-By: 1.6.0_16 (Sun Microsystems Inc.)
 BDJ-Signature-Version: 1.0
-SHA1-Digest-Manifest: P2Rd0ZXQjZFVOodtqsWshUH/eyI=
+SHA1-Digest-Manifest: 2AUGQMCxF9HM3tgXM6rp1F/V++A=
 
 Name: hellotvxlet/HelloTVXlet.class
-SHA1-Digest: MowQhbvFvxTKBbm3cK1ZPJt89K4=
+SHA1-Digest: Os+2HLkCpJy/c88Yi2hxlPWdYWs=
+
+Name: hellotvxlet/MijnTriviavraag.class
+SHA1-Digest: t3cbLO2g9xBAqZz8qyacvt1l194=
 
 Name: hellotvxlet/MijnComponent.class
-SHA1-Digest: QPvvnq0sZgZ6xC0FBJ3RJjJXV4U=
+SHA1-Digest: Jwnmfz0yfEK7ewxs3QiMC9600V4=
 
 Name: hellotvxlet/bluray.HelloTVXlet.perm
 SHA1-Digest: 84ZO/rYCyy0JStmaLbg1GDVEFhQ=
+
+Name: hellotvxlet/Background.class
+SHA1-Digest: fmr0BXsaXekPH7v8NrH0AVT7lHY=
+
+Name: hellotvxlet/ColorBox.class
+SHA1-Digest: VoG8IYxCFwJnZ/HtpVxBfzNOVUY=
+
+Name: hellotvxlet/Triviavraag.class
+SHA1-Digest: 6yWlZ3qimmeepqPnR9B8r77vM8k=
+
+Name: hellotvxlet/WrongAnswer.class
+SHA1-Digest: I+lG/5nD94JNhkFfmEv5FpfJZ4g=
 

@@ -9,6 +9,8 @@ import org.dvb.ui.*;
  *
  * @author student
  */
+//Doet feitelijk niks, is meer een testklasse om images te leren implementeren
+
 public class MijnComponent extends HComponent//klasse HComponent overerven
 {
     int width;
