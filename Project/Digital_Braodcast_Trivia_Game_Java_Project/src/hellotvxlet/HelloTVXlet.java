@@ -16,15 +16,15 @@ import java.awt.event.*;
 public class HelloTVXlet implements Xlet, HActionListener {
 
     private XletContext actualXletcontext;
-    public HScene sceneMenu, sceneVraag; //elke scene is interactief, dus 2 scenes.
+    public HScene scene; //elke scene is interactief, dus 2 scenes.
     
     //initialiseer knopobject
-    private HTextButton startKnop, stopKnop, hulpKnop, 
+    public HTextButton startKnop, stopKnop, hulpKnop, 
             triviaAntw1, triviaAntw2,triviaAntw3, triviaAntw4;
-    private HStaticText triviaVraag;
+    public HStaticText triviaVraag;
     //private Image
     private boolean debug = true;
-    
+    public Background achtergrondImageMenu, achtergrondImageVraag;
   
     public HelloTVXlet() { }
 
@@ -40,7 +40,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
       sceneTemplateMenu.setPreference(HSceneTemplate.SCENE_SCREEN_LOCATION, new HScreenPoint(0.0f,0.0f), HSceneTemplate.REQUIRED);
       
       // kan nog veranderd worden (het zijn maar afmetingen)
-      sceneMenu = HSceneFactory.getInstance().getBestScene(sceneTemplateMenu);
+      scene = HSceneFactory.getInstance().getBestScene(sceneTemplateMenu);
 
        //Omega Stap 2: object aanmaken, eigenschappen instellen
      //Menu
@@ -68,90 +68,84 @@ public class HelloTVXlet implements Xlet, HActionListener {
      hulpKnop.setFocusTraversal(stopKnop,null, stopKnop,null);
      
      //knop aan scene toevoegen
-     sceneMenu.add(startKnop);
-     sceneMenu.add(stopKnop);
-     sceneMenu.add(hulpKnop);
+     scene.add(startKnop);
+     scene.add(stopKnop);
+     scene.add(hulpKnop);
      
      //Requestknop Menu
      startKnop.requestFocus(); //Menu
 
      //MijnComponent
-     MijnComponent achtergrondImage=new MijnComponent("bitmap1.jpeg", 200, 200, 300, 60);
-     sceneMenu.add(achtergrondImage);
+     achtergrondImageMenu=new Background(); //Is nu tijdelijk een vaste kleur
+     scene.add(achtergrondImageMenu);
      
-     //MijnTriviavraag mTriviavraag = new MijnTriviavraag();
-     //sceneVraag.add(mTriviavraag); //Verder bekijken hoe dit werkt...
-     
-     //VRAAG
-     HSceneTemplate sceneTemplateVraag = new HSceneTemplate(); //Vraag
-     
-     sceneTemplateVraag.setPreference(HSceneTemplate.SCENE_SCREEN_DIMENSION, new HScreenDimension(1.0f,1.0f), HSceneTemplate.REQUIRED);
-     sceneTemplateVraag.setPreference(HSceneTemplate.SCENE_SCREEN_LOCATION, new HScreenPoint(0.0f,0.0f), HSceneTemplate.REQUIRED);
-      
-     sceneVraag = HSceneFactory.getInstance().getBestScene(sceneTemplateVraag);
-     
-      //Vraag
+     //MaakVraagAan(); 
+     }
+
+     public void MaakVraagAan() //Maakt vraag'Scene' aan
+     {
+          //VRAAG
      triviaVraag = new HStaticText("Wat is het antwoord op de vraag?");
       
-     triviaVraag.setLocation(100,70);
+     triviaVraag.setLocation(200,70);
      triviaVraag.setSize(350,100);
      triviaVraag.setForeground(new DVBColor(40,40,100,255));
      triviaVraag.setBackground(new DVBColor(255,255,255,255));
      triviaVraag.setBackgroundMode(HVisible.BACKGROUND_FILL);
       
      triviaAntw1 = new HTextButton("Dit is misschien het antwoord");
-     triviaAntw1.setLocation(102,200);
+     triviaAntw1.setLocation(202,200);
      triviaAntw1.setSize(347,50);
      triviaAntw1.setBackground(new DVBColor(100,210,70,255));
      triviaAntw1.setBackgroundMode(HVisible.BACKGROUND_FILL);
       
      triviaAntw2 = new HTextButton("Dit is mogelijks het antwoord");
-     triviaAntw2.setLocation(102,280);
+     triviaAntw2.setLocation(202,280);
      triviaAntw2.setSize(347,50);
      triviaAntw2.setBackground(new DVBColor(200,90,30,255));
      triviaAntw2.setBackgroundMode(HVisible.BACKGROUND_FILL);
       
      triviaAntw3 = new HTextButton("Dit is zeker niet het antwoord");
-     triviaAntw3.setLocation(102,360);
+     triviaAntw3.setLocation(202,360);
      triviaAntw3.setSize(347,50);
      triviaAntw3.setBackground(new DVBColor(100,40,170,255));
      triviaAntw3.setBackgroundMode(HVisible.BACKGROUND_FILL);
       
      triviaAntw4 = new HTextButton("Dit is onwaarschijnlijk als antwoord");
-     triviaAntw4.setLocation(102,440);
+     triviaAntw4.setLocation(202,440);
      triviaAntw4.setSize(347,50);
      triviaAntw4.setBackground(new DVBColor(100,90,140,255));
      triviaAntw4.setBackgroundMode(HVisible.BACKGROUND_FILL);
      
       //Navigeerbaar maken
       triviaAntw1.setFocusTraversal(null, triviaAntw2, null, null);
-      triviaAntw2.setFocusTraversal(triviaAntw1, triviaAntw1, null, null);
+      triviaAntw2.setFocusTraversal(triviaAntw1, triviaAntw3, null, null);
       triviaAntw3.setFocusTraversal(triviaAntw2, triviaAntw4, null, null);
-      triviaAntw4.setFocusTraversal(triviaAntw3, null, null, null);
+      triviaAntw4.setFocusTraversal(triviaAntw3, triviaAntw1, null, null);
       
-      ColorBox cb = new ColorBox(100, 70, 450, 350);
+      ColorBox cb = new ColorBox(200, 70, 450, 350);
       Background bg = new Background();
       
       //knop aan scene toevoegen
-      sceneVraag.add(triviaAntw1);
-      sceneVraag.add(triviaAntw2);
-      sceneVraag.add(triviaAntw3);
-      sceneVraag.add(triviaAntw4);
-      sceneVraag.add(triviaVraag);      
-      sceneVraag.add(cb);
-      sceneVraag.add(bg);
+      scene.add(triviaAntw1);
+      scene.add(triviaAntw2);
+      scene.add(triviaAntw3);
+      scene.add(triviaAntw4);
+      scene.add(triviaVraag);      
+      scene.add(cb);
+      scene.add(bg);
      
-     //beginfocus instellen 1 van de knoppen
-     triviaAntw1.requestFocus();
-    }
+     achtergrondImageVraag = new Background(121,20,255);
+     scene.add(achtergrondImageVraag);
+     }
 
     public void startXlet() {
         if(debug){
             System.out.println("Xlet starten");
         }
-       sceneMenu.validate();
-       sceneMenu.setVisible(true);
-       
+     scene.validate();
+     scene.setVisible(true);
+
      //Acties laten uitvoeren
      //Menu  
      startKnop.setActionCommand("startKnop_actioned");
@@ -160,14 +154,12 @@ public class HelloTVXlet implements Xlet, HActionListener {
      startKnop.addHActionListener(this);
      stopKnop.addHActionListener(this);
      hulpKnop.addHActionListener(this);
-     
-     //Vraag is actief, maar nog niet visible (Startknop menu zal dit veranderen)
-     sceneVraag.validate();
-     sceneVraag.setVisible(false);
-     
-    //Vraag
-     triviaAntw1.setActionCommand("triviaAntw1_actioned");
-     triviaAntw1.addHActionListener(this);
+  
+     //Vraag
+     //scene.validate();
+     //scene.setVisible(true);
+     //triviaAntw1.setActionCommand("triviaAntw1_actioned");
+     //triviaAntw1.addHActionListener(this);
     }
 
     public void pauseXlet() {
@@ -196,9 +188,19 @@ public class HelloTVXlet implements Xlet, HActionListener {
     
     //Menu
     if(e.getActionCommand().equals("startKnop_actioned"))
-    {
-     sceneMenu.setVisible(false);  
-     sceneVraag.setVisible(true); 
+    {  
+     System.out.println("sceneVraag wordt visible");
+     //invisible achtergrondmenu
+     achtergrondImageMenu.setVisible(false); 
+    
+     //manueel knoppen onzichtbaar maken
+     startKnop.setVisible(false);
+     stopKnop.setVisible(false);
+     hulpKnop.setVisible(false);
+     
+     //Vraag vraagscene aan
+     MaakVraagAan();
+     triviaAntw1.requestFocus();
     }
     
     if(e.getActionCommand().equals("stopKnop_actioned"))
@@ -211,17 +213,17 @@ public class HelloTVXlet implements Xlet, HActionListener {
 
     }
     
-    //Vraag
+    //Vraag (nog ni gebruikt)
     if(e.getActionCommand().equals("triviaAnsw1_actioned")) 
     {
             WrongAnswer wrong = new WrongAnswer();
-            sceneVraag.add(wrong);    
+            scene.add(wrong);    
     }
     
         if(e.getActionCommand().equals("triviaAnsw2_actioned"))
     {
             WrongAnswer wrong = new WrongAnswer();
-            sceneVraag.add(wrong);    
+            scene.add(wrong);    
     }
         if(e.getActionCommand().equals("triviaAnsw3_actioned"))
     {
@@ -232,7 +234,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
             if(e.getActionCommand().equals("triviaAnsw4_actioned")) 
     {
             WrongAnswer wrong = new WrongAnswer();
-            sceneVraag.add(wrong);    
+            scene.add(wrong);    
     }
     } 
 }
