@@ -15,8 +15,6 @@ import org.davic.resources.*;
 import org.davic.resources.ResourceProxy;
 
 
-
-
 public class HelloTVXlet implements Xlet, HActionListener {
 
     private XletContext actualXletcontext;
@@ -30,6 +28,13 @@ public class HelloTVXlet implements Xlet, HActionListener {
     private boolean debug = true;
     public Background achtergrondImageMenu, achtergrondImageVraag;
     
+    //Background
+    private HScreen screen;
+    private HBackgroundDevice bgDevice;
+    private HBackgroundConfigTemplate bgTemplate;
+    private HStillImageBackgroundConfiguration bgConfiguration;
+    private HBackgroundImage bgImage = new HBackgroundImage("gordijn.jpg");
+    
     //klasse om een vraag aan te maken, 1 object aanmaken zodat methode voor nieuwe scene gebruikt kan worden
     MijnTriviavraag objTriviaVraag = new MijnTriviavraag();
   
@@ -39,15 +44,35 @@ public class HelloTVXlet implements Xlet, HActionListener {
       if(debug){
         System.out.println("Xlet initialiseren");
       }
+      
+      //Background
+      // HScreen object opvragen
+      screen = HScreen.getDefaultHScreen();
+      
+      // HBackgroundDevice opvragen
+      bgDevice = screen.getDefaultHBackgroundDevice();
+      
+      // Template maken
+      bgTemplate = new HBackgroundConfigTemplate();
+      
+      // Configurateinstelling "STILL_IMAGE"
+      bgTemplate.setPreference(HBackgroundConfigTemplate.STILL_IMAGE, HBackgroundConfigTemplate.REQUIRED);
+      
+      // Configuratie aanvragen en activeren en OK
+      bgConfiguration = (HStillImageBackgroundConfiguration)bgDevice.getBestConfiguration(bgTemplate);
+      
+      try 
+      {
+          bgDevice.setBackgroundConfiguration(bgConfiguration);
+      }
+      catch (Exception s)
+      {
+          System.out.println(s.toString());
+      }
+      //Background einde
+      
       this.actualXletcontext = context;
       HSceneTemplate sceneTemplateMenu = new HSceneTemplate(); //Menu
-      
-      //Achtergrond
-    //private HScreen screen;
-    //private HBackgroundDevice bgDevice;
-    //private HBackgroundConfigTemplate bgTemplate;
-    //private HStillImageBackgroundConfiguration bgConfiguration;
-    //private HBackgroundImage bgImage = new HBackgroundImage("gordijn.jpg");
     
       //Menu
       sceneTemplateMenu.setPreference(HSceneTemplate.SCENE_SCREEN_DIMENSION, new HScreenDimension(1.0f,1.0f), HSceneTemplate.REQUIRED);
@@ -110,6 +135,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
      stopKnop.addHActionListener(this);
      hulpKnop.addHActionListener(this);
   
+     //image vragen background
+     bgImage.load(this);   //WHYYYYY???!!
+     
      //Vraag
      //scene.validate();
      //scene.setVisible(true);    
@@ -217,6 +245,18 @@ public class HelloTVXlet implements Xlet, HActionListener {
                 //je hebt de vraag goed beantwoord
             }   
         }
-    } 
+    }
+    
+    //Background
+        public void imageLoaded(HBackgroundImageEvent e) {
+        try
+        {
+            bgConfiguration.displayImage(bgImage);
+        }    
+        catch(Exception s)
+        {
+            System.out.println(s.toString());
+        }
+    }
 }
 
