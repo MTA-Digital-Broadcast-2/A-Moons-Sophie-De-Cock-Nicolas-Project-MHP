@@ -1,19 +1,31 @@
 Signature-Version: 1.0
 Created-By: 1.6.0_16 (Sun Microsystems Inc.)
 BDJ-Signature-Version: 1.0
-SHA1-Digest-Manifest: FXZeLciLjjBHSnSyDhNDuVY2PIE=
+SHA1-Digest-Manifest: fs/YDtCklRaXdCRnK7tFREQQMPg=
 
 Name: hellotvxlet/HelloTVXlet.class
-SHA1-Digest: HNXXNkWA9z8eV0AAhsJX0tpiyJw=
+SHA1-Digest: hj0QYxsZztUhYUy2zg2FseBWNnI=
 
 Name: hellotvxlet/MijnTriviavraag.class
-SHA1-Digest: fSiI7yXUwMFWE2xUQm3nR2VVO60=
+SHA1-Digest: HxxiWQcxIyd+ykTA1SZemP2kbo0=
+
+Name: Howard_Drew_Theatre_Layout.png
+SHA1-Digest: jm9buD2kdwrHOhQuaOEDZ1qtlOw=
+
+Name: hellotvxlet/SolidColorComponent.class
+SHA1-Digest: G7shJHWIZAt/5/8ujUQ1hVGE+WE=
+
+Name: hellotvxlet/ImageComponent.class
+SHA1-Digest: kdQLjmYyC6ThzYSFVdL1FG0OfLA=
+
+Name: gordijn.png
+SHA1-Digest: d5nT7rjkKT1GNBIapeuAOD4vruk=
 
 Name: hellotvxlet/bluray.HelloTVXlet.perm
 SHA1-Digest: 84ZO/rYCyy0JStmaLbg1GDVEFhQ=
 
 Name: hellotvxlet/Background.class
-SHA1-Digest: XBbq02TryNZ+OMG/esFzrM1Ji9g=
+SHA1-Digest: CC/MLscPGFxVBzt3eTFjbReA8CY=
 
 Name: hellotvxlet/ColorBox.class
 SHA1-Digest: VoG8IYxCFwJnZ/HtpVxBfzNOVUY=

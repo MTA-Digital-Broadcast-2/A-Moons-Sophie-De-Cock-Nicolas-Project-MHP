@@ -7,12 +7,9 @@ import org.dvb.ui.*;
 import org.havi.ui.*;
 //import java.awt.Toolkit;
 import java.awt.*;
-
 //voor de acties die je wilt uitvoeren
 import org.havi.ui.event.*;
 import java.awt.event.*;
-import org.davic.resources.*;
-import org.davic.resources.ResourceProxy;
 
 
 public class HelloTVXlet implements Xlet, HActionListener {
@@ -26,14 +23,13 @@ public class HelloTVXlet implements Xlet, HActionListener {
     public HStaticText triviaVraag;
     //private Image
     private boolean debug = true;
-    public Background achtergrondImageMenu, achtergrondImageVraag;
     
-    //Background
-    private HScreen screen;
-    private HBackgroundDevice bgDevice;
-    private HBackgroundConfigTemplate bgTemplate;
-    private HStillImageBackgroundConfiguration bgConfiguration;
-    private HBackgroundImage bgImage = new HBackgroundImage("gordijn.jpg");
+    //nieuwe backgrounds
+    public ImageComponent backgroundMenu, backgroundVraag;
+    
+    Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+    double scWidth = screensize.width;
+    double scHeight = screensize.height;
     
     //klasse om een vraag aan te maken, 1 object aanmaken zodat methode voor nieuwe scene gebruikt kan worden
     MijnTriviavraag objTriviaVraag = new MijnTriviavraag();
@@ -44,32 +40,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
       if(debug){
         System.out.println("Xlet initialiseren");
       }
-      
-      //Background
-      // HScreen object opvragen
-      screen = HScreen.getDefaultHScreen();
-      
-      // HBackgroundDevice opvragen
-      bgDevice = screen.getDefaultHBackgroundDevice();
-      
-      // Template maken
-      bgTemplate = new HBackgroundConfigTemplate();
-      
-      // Configurateinstelling "STILL_IMAGE"
-      bgTemplate.setPreference(HBackgroundConfigTemplate.STILL_IMAGE, HBackgroundConfigTemplate.REQUIRED);
-      
-      // Configuratie aanvragen en activeren en OK
-      bgConfiguration = (HStillImageBackgroundConfiguration)bgDevice.getBestConfiguration(bgTemplate);
-      
-      try 
-      {
-          bgDevice.setBackgroundConfiguration(bgConfiguration);
-      }
-      catch (Exception s)
-      {
-          System.out.println(s.toString());
-      }
-      //Background einde
       
       this.actualXletcontext = context;
       HSceneTemplate sceneTemplateMenu = new HSceneTemplate(); //Menu
@@ -114,9 +84,18 @@ public class HelloTVXlet implements Xlet, HActionListener {
      //Requestknop Menu
      startKnop.requestFocus(); //Menu
 
-     //MijnComponent
-     achtergrondImageMenu=new Background(); //Is nu tijdelijk een vaste kleur
-     scene.add(achtergrondImageMenu);
+     //Background
+     //achtergrondImageMenu=new Background(); //Is nu tijdelijk een vaste kleur
+     //scene.add(achtergrondImageMenu);
+     
+     //Background ImageComponent
+     backgroundMenu = new ImageComponent("gordijn.png",0,0,(int)scWidth, (int)scHeight);
+     System.out.println("Image width: "+scWidth);
+     System.out.println("Window height: "+scHeight);
+     
+     scene.add(backgroundMenu);
+     scene.repaint(); //wat doet dit?
+     
      }
 
     public void startXlet() {
@@ -134,9 +113,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
      startKnop.addHActionListener(this);
      stopKnop.addHActionListener(this);
      hulpKnop.addHActionListener(this);
-  
-     //image vragen background
-     bgImage.load(this);   //WHYYYYY???!!
      
      //Vraag
      //scene.validate();
@@ -172,7 +148,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
     {  
      System.out.println("sceneVraag wordt visible");
      //invisible achtergrondmenu
-     achtergrondImageMenu.setVisible(false); 
+     backgroundMenu.setVisible(false); 
     
      //manueel knoppen onzichtbaar maken
      startKnop.setVisible(false);
@@ -244,18 +220,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
             {
                 //je hebt de vraag goed beantwoord
             }   
-        }
-    }
-    
-    //Background
-        public void imageLoaded(HBackgroundImageEvent e) {
-        try
-        {
-            bgConfiguration.displayImage(bgImage);
-        }    
-        catch(Exception s)
-        {
-            System.out.println(s.toString());
         }
     }
 }

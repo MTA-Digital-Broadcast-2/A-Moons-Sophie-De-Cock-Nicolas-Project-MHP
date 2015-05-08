@@ -9,10 +9,10 @@ import java.awt.event.*;
 public class MijnTriviavraag {
     public HScene vraagScene;
     
-    public HTextButton   triviaAntw1, triviaAntw2,triviaAntw3, triviaAntw4;
+    public HTextButton triviaAntw1, triviaAntw2,triviaAntw3, triviaAntw4;
     public HStaticText triviaVraag;
     
-    public Background achtergrondImageVraag;
+    public SolidColorComponent backgroundVraag; //maak ImageComponent van
     
     public String correct= "1e antwoord";
     //public string triviaVraag, triviaAntwoord
@@ -69,7 +69,7 @@ public class MijnTriviavraag {
       triviaAntw4.setFocusTraversal(triviaAntw3, triviaAntw1, null, null);
       
       ColorBox cb = new ColorBox(200, 70, 450, 350);
-      Background bg = new Background();
+      SolidColorComponent bg = new SolidColorComponent(); //solid kleur, maak ik later imagecomponent van
       
       //knop aan scene toevoegen
       vraagScene.add(triviaAntw1);
@@ -80,8 +80,8 @@ public class MijnTriviavraag {
       vraagScene.add(cb);
       vraagScene.add(bg);
      
-     achtergrondImageVraag = new Background(121,20,255);
-     vraagScene.add(achtergrondImageVraag);
+     backgroundVraag = new SolidColorComponent(121,20,255); //solid kleur, maak ik later imagecomponent van
+     vraagScene.add(backgroundVraag);
      
      return vraagScene;
     }
