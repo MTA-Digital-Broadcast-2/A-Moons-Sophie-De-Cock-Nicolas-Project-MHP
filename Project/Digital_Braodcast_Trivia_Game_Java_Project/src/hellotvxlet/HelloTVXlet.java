@@ -6,11 +6,15 @@ import org.dvb.ui.*;
 //Bèta Stap 1: voor de grafische toestanden
 import org.havi.ui.*;
 //import java.awt.Toolkit;
-//import java.awt.Image;
+import java.awt.*;
 
 //voor de acties die je wilt uitvoeren
 import org.havi.ui.event.*;
 import java.awt.event.*;
+import org.davic.resources.*;
+import org.davic.resources.ResourceProxy;
+
+
 
 
 public class HelloTVXlet implements Xlet, HActionListener {
@@ -38,6 +42,13 @@ public class HelloTVXlet implements Xlet, HActionListener {
       this.actualXletcontext = context;
       HSceneTemplate sceneTemplateMenu = new HSceneTemplate(); //Menu
       
+      //Achtergrond
+    //private HScreen screen;
+    //private HBackgroundDevice bgDevice;
+    //private HBackgroundConfigTemplate bgTemplate;
+    //private HStillImageBackgroundConfiguration bgConfiguration;
+    //private HBackgroundImage bgImage = new HBackgroundImage("gordijn.jpg");
+    
       //Menu
       sceneTemplateMenu.setPreference(HSceneTemplate.SCENE_SCREEN_DIMENSION, new HScreenDimension(1.0f,1.0f), HSceneTemplate.REQUIRED);
       sceneTemplateMenu.setPreference(HSceneTemplate.SCENE_SCREEN_LOCATION, new HScreenPoint(0.0f,0.0f), HSceneTemplate.REQUIRED);
