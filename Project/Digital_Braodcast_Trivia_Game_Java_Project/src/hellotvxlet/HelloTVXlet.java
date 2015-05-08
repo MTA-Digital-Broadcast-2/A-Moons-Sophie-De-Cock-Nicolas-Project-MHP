@@ -159,39 +159,8 @@ public class HelloTVXlet implements Xlet, HActionListener {
      hulpKnop.setVisible(false);
      
      //Nieuwe vraag maken, huidige scene meegeven + vraag / antw1 / antw2 / antw3 / antw4 + int juisteAntw (getal dat zegt welk antwoord juist is)
-     
-     switch(vraagnr)
-     {
-         case 1: 
-             scene = objTriviaVraag.nieuweVraagMaken(scene,"doody","dood","ddoo","oddo","doood","dd");  
-             
-            //Staat erboven, maar functioneert niet
-            /* scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",
-                                                    "Dit is misschien het antwoord",
-                                                    "Dit is mogelijks het antwoord",
-                                                    "Dit is zeker niet het antwoord",
-                                                    "Dit is onwaarschijnlijk als antwoord",
-                                                     "1e antwoord"); */
-            
-             
-
-         break;
-         
-         case 2: scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 2e vraag?",
-                                                    "Dit is misschien het antwoord",
-                                                    "Dit is mogelijks het antwoord",
-                                                    "Dit is zeker niet het antwoord",
-                                                    "Dit is onwaarschijnlijk als antwoord",
-                                                     "3e antwoord");     
-         break;
-     }
-     
-     /*scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",
-                                                    "Dit is misschien het antwoord",
-                                                    "Dit is mogelijks het antwoord",
-                                                    "Dit is zeker niet het antwoord",
-                                                    "Dit is onwaarschijnlijk als antwoord",
-                                                     "1e antwoord"); */   
+     scene = objTriviaVraag.nieuweVraagMaken(scene,"","","","","",""); 
+          
      //focus op 1e antwoord knop
      objTriviaVraag.triviaAntw1.requestFocus();
      
@@ -224,8 +193,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
             //je hebt de vraag goed beantwoord
             System.out.println("juist!!");
             vraagnr++; //op naar de volgende
-            //scene.invalidate();
-            scene.repaint();
+            
         }  
     }
     
@@ -246,6 +214,10 @@ public class HelloTVXlet implements Xlet, HActionListener {
             if(objTriviaVraag.correct.equals("3e antwoord"))
             {
                 System.out.println("juist!!");
+                vraagnr++;
+                scene.invalidate();
+                scene.repaint();
+
                 //je hebt de vraag goed beantwoord
             }
         }
@@ -255,9 +227,45 @@ public class HelloTVXlet implements Xlet, HActionListener {
             if(objTriviaVraag.correct.equals("4e antwoord"))
             {
                  System.out.println("juist!!");
+                 vraagnr++;
+
                 //je hebt de vraag goed beantwoord
             }   
         }
-    }
+    
+    //Hier switchen we van vragen
+     System.out.println("vraagnr:::::: " + vraagnr);
+     
+     switch(vraagnr)
+     {
+         case 1: 
+             System.out.println("Het is de 1ste vraag");
+                   objTriviaVraag.VragenVeranderen("Is dit de 1ste vraag?",
+                                                    "Oh mijn hemeltje lief, JA!",
+                                                    "Dit is uiterst mogelijk",
+                                                    "JA! JAAAA! JAAAAA",
+                                                    "Neih...",
+                                                     "3e antwoord");  
+  
+         break;
+         
+         case 2: 
+             
+             objTriviaVraag.VragenVeranderen("Wat is het antwoord op de 2e vraag?",
+                                                    "Dit is misschien het antwoord",
+                                                    "Dit is mogelijks het antwoord",
+                                                    "Dit is zeker niet het antwoord",
+                                                    "Dit is onwaarschijnlijk als antwoord",
+                                                     "3e antwoord");   
+         break;
+     }
+    
+     /*scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",
+                                                    "Dit is misschien het antwoord",
+                                                    "Dit is mogelijks het antwoord",
+                                                    "Dit is zeker niet het antwoord",
+                                                    "Dit is onwaarschijnlijk als antwoord",
+                                                "1e antwoord");*/  
+     }
 }
 

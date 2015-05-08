@@ -85,4 +85,15 @@ public class MijnTriviavraag {
      
      return vraagScene;
     }
+    
+    public void VragenVeranderen(String vraag,String antw1,String antw2,String antw3,String antw4,String juisteAntwoord)
+    {
+     triviaVraag.setTextContent(vraag, HState.NORMAL_STATE);
+     triviaAntw1.setTextContent(antw1, HState.NORMAL_STATE);
+     triviaAntw2.setTextContent(antw2, HState.NORMAL_STATE);
+     triviaAntw3.setTextContent(antw3, HState.NORMAL_STATE);
+     triviaAntw4.setTextContent(antw4, HState.NORMAL_STATE);
+     correct = juisteAntwoord;
+   
+    }
 }
