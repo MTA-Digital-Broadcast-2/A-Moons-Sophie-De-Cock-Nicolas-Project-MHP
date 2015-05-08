@@ -33,6 +33,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
     
     //klasse om een vraag aan te maken, 1 object aanmaken zodat methode voor nieuwe scene gebruikt kan worden
     MijnTriviavraag objTriviaVraag = new MijnTriviavraag();
+    
+    public int vraagnr = 1; //test
+
   
     public HelloTVXlet() { }
 
@@ -156,12 +159,39 @@ public class HelloTVXlet implements Xlet, HActionListener {
      hulpKnop.setVisible(false);
      
      //Nieuwe vraag maken, huidige scene meegeven + vraag / antw1 / antw2 / antw3 / antw4 + int juisteAntw (getal dat zegt welk antwoord juist is)
-     scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",
+     
+     switch(vraagnr)
+     {
+         case 1: 
+             scene = objTriviaVraag.nieuweVraagMaken(scene,"doody","dood","ddoo","oddo","doood","dd");  
+             
+            //Staat erboven, maar functioneert niet
+            /* scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",
                                                     "Dit is misschien het antwoord",
                                                     "Dit is mogelijks het antwoord",
                                                     "Dit is zeker niet het antwoord",
                                                     "Dit is onwaarschijnlijk als antwoord",
-                                                     "1e antwoord");     
+                                                     "1e antwoord"); */
+            
+             
+
+         break;
+         
+         case 2: scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 2e vraag?",
+                                                    "Dit is misschien het antwoord",
+                                                    "Dit is mogelijks het antwoord",
+                                                    "Dit is zeker niet het antwoord",
+                                                    "Dit is onwaarschijnlijk als antwoord",
+                                                     "3e antwoord");     
+         break;
+     }
+     
+     /*scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",
+                                                    "Dit is misschien het antwoord",
+                                                    "Dit is mogelijks het antwoord",
+                                                    "Dit is zeker niet het antwoord",
+                                                    "Dit is onwaarschijnlijk als antwoord",
+                                                     "1e antwoord"); */   
      //focus op 1e antwoord knop
      objTriviaVraag.triviaAntw1.requestFocus();
      
@@ -193,6 +223,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
         {
             //je hebt de vraag goed beantwoord
             System.out.println("juist!!");
+            vraagnr++; //op naar de volgende
+            //scene.invalidate();
+            scene.repaint();
         }  
     }
     
@@ -200,8 +233,10 @@ public class HelloTVXlet implements Xlet, HActionListener {
         {
             if(objTriviaVraag.correct.equals("2e antwoord"))
             {
+                //je hebt de vraag goed beantwoord  
                 System.out.println("juist!!");
-                //je hebt de vraag goed beantwoord                
+                vraagnr++; //op naar de volgende
+                scene.repaint();              
             }    
         }
         if(e.getActionCommand().equals("triviaAntw3_actioned"))
@@ -210,6 +245,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
            // sceneVraag.add(right); 
             if(objTriviaVraag.correct.equals("3e antwoord"))
             {
+                System.out.println("juist!!");
                 //je hebt de vraag goed beantwoord
             }
         }
@@ -218,6 +254,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
         {
             if(objTriviaVraag.correct.equals("4e antwoord"))
             {
+                 System.out.println("juist!!");
                 //je hebt de vraag goed beantwoord
             }   
         }
