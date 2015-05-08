@@ -54,13 +54,13 @@ public class HelloTVXlet implements Xlet, HActionListener {
        //Omega Stap 2: object aanmaken, eigenschappen instellen
      //Menu
      startKnop=new HTextButton("Start");
-     startKnop.setLocation(150,450);
+     startKnop.setLocation(300,410);
      startKnop.setSize(130,50);
      startKnop.setBackground(new DVBColor(0,0,0,179));
      startKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
      
      stopKnop=new HTextButton("Stop");
-     stopKnop.setLocation(450,450);
+     stopKnop.setLocation(300,480);
      stopKnop.setSize(130,50);
      stopKnop.setBackground(new DVBColor(0,0,0,179));
      stopKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
@@ -72,9 +72,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
      hulpKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
      
      //Navigeerbaar maken
-     startKnop.setFocusTraversal(null, hulpKnop, null,stopKnop);
-     stopKnop.setFocusTraversal(null, hulpKnop, startKnop,null);
-     hulpKnop.setFocusTraversal(stopKnop,null, stopKnop,null);
+     startKnop.setFocusTraversal(null, stopKnop, null,hulpKnop);
+     stopKnop.setFocusTraversal(startKnop, null, null,hulpKnop);
+     hulpKnop.setFocusTraversal(null,null, startKnop,null);
      
      //knop aan scene toevoegen
      scene.add(startKnop);
