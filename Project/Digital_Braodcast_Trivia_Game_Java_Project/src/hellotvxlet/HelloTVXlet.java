@@ -24,9 +24,30 @@ public class HelloTVXlet implements Xlet, HActionListener {
     //private Image
     private boolean debug = true;
     
+    private boolean goedAntwoord;
+    
     //nieuwe backgrounds
     public ImageComponent backgroundMenu, backgroundBord, handleidingGame; //menu en spelbord
     
+    //Sprites
+    public ImageComponent[] spriteCinefiel = new ImageComponent[21]; //sprite (array van vss posities) Cinefiel
+    public ImageComponent[] spriteSecurity = new ImageComponent [21]; //sprite (array van vss posities) Security
+    
+    public String pathImageCinefiel="Cinefieltje sprite.png";
+    public String pathImageSecurity="Security sprite.png";
+    
+    public int startYPos = 513;
+    public int startXPos = 329;
+    
+    public int widthCine = 53;
+    public int heightCine = 50;
+    
+    public int widthSecu = 53;
+    public int heightSecu = 66;
+    
+    public int goedeAntwoorden=0;
+    
+    //Screen
     Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
     double scWidth = screensize.width;
     double scHeight = screensize.height;
@@ -98,10 +119,31 @@ public class HelloTVXlet implements Xlet, HActionListener {
      //Requestknop Menu
      startKnop.requestFocus(); //Menu
 
-     //Background
-     //achtergrondImageMenu=new Background(); //Is nu tijdelijk een vaste kleur
-     //scene.add(achtergrondImageMenu);
-     
+     //Sprites
+     spriteCinefiel[0]= new ImageComponent(pathImageCinefiel,startXPos,startYPos,widthCine,heightCine);
+     spriteCinefiel[1]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-21,widthCine,heightCine);
+     spriteCinefiel[2]= new ImageComponent(pathImageCinefiel,startXPos-21,startYPos-21,widthCine,heightCine);
+     spriteCinefiel[3]= new ImageComponent(pathImageCinefiel,startXPos-42,startYPos-21,widthCine,heightCine);
+     spriteCinefiel[4]= new ImageComponent(pathImageCinefiel,startXPos-63,startYPos-21,widthCine,heightCine);
+     spriteCinefiel[5]= new ImageComponent(pathImageCinefiel,startXPos-84,startYPos-21,widthCine,heightCine);
+     spriteCinefiel[6]= new ImageComponent(pathImageCinefiel,startXPos-79,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[7]= new ImageComponent(pathImageCinefiel,startXPos-58,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[8]= new ImageComponent(pathImageCinefiel,startXPos-37,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[9]= new ImageComponent(pathImageCinefiel,startXPos-16,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[10]= new ImageComponent(pathImageCinefiel,startXPos+5,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[11]= new ImageComponent(pathImageCinefiel,startXPos+26,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[12]= new ImageComponent(pathImageCinefiel,startXPos+47,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[13]= new ImageComponent(pathImageCinefiel,startXPos+68,startYPos-45,widthCine,heightCine);
+     spriteCinefiel[14]= new ImageComponent(pathImageCinefiel,startXPos+78,startYPos-65,widthCine,heightCine);
+     spriteCinefiel[15]= new ImageComponent(pathImageCinefiel,startXPos+57,startYPos-65,widthCine,heightCine);
+     spriteCinefiel[16]= new ImageComponent(pathImageCinefiel,startXPos+36,startYPos-65,widthCine,heightCine);
+     spriteCinefiel[17]= new ImageComponent(pathImageCinefiel,startXPos+15,startYPos-65,widthCine,heightCine);
+     spriteCinefiel[18]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-85,widthCine,heightCine);
+     spriteCinefiel[19]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-106,widthCine,heightCine);
+     spriteCinefiel[20]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-127,widthCine,heightCine);
+
+     scene.add(spriteCinefiel[0]);
+
      //Background ImageComponent
      backgroundMenu = new ImageComponent("gordijn.png",0,0,(int)scWidth, (int)scHeight);
      System.out.println("Image width: "+scWidth);
@@ -135,9 +177,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      backKnop.setVisible(false);
      
-     //Vraag
-     //scene.validate();
-     //scene.setVisible(true);    
+     spriteCinefiel[0].setVisible(false);   
     }
 
     public void pauseXlet() {
@@ -179,12 +219,31 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      //Nieuwe vraag maken, huidige scene meegeven + vraag / antw1 / antw2 / antw3 / antw4 + int juisteAntw (getal dat zegt welk antwoord juist is)
      scene = objTriviaVraag.nieuweVraagMaken(scene,"","","","","",""); 
+
+     spriteCinefiel[0].setVisible(true); //startpositie cinefieltje
+     
+     //Sprites
+     if(goedAntwoord)
+     {
+     System.out.println("Er is een juist antwoord gegeven!");
+     
+     spriteCinefiel[goedeAntwoorden].setVisible(false);
+     
+     goedeAntwoorden++;     
+     
+     scene.add(spriteCinefiel[goedeAntwoorden]);
+     scene.repaint();
+     
+     goedAntwoord = false;
+     }
      
      //achtergrond vragen = spelbord
      backgroundBord = new ImageComponent("Howard_Drew_Theatre_Layout.png",0,0,(int)scWidth, (int)scHeight);
      scene.add(backgroundBord);
      scene.repaint(); //wat doet dit?
-          
+     
+
+     
      //focus op 1e antwoord knop
      objTriviaVraag.triviaAntw1.requestFocus();
      
@@ -210,11 +269,12 @@ public class HelloTVXlet implements Xlet, HActionListener {
      startKnop.setVisible(false);
      stopKnop.setVisible(false);
      
+     //handleiding wordt gemaakt en backknop wordt visible
      backKnop.setVisible(true);
      backKnop.requestFocus();
      
      backgroundMenu.setVisible(false); 
-        
+     
      handleidingGame = new ImageComponent("gordijn handleiding.png",0,0,(int)scWidth, (int)scHeight);
      scene.add(handleidingGame);
      scene.repaint(); //wat doet dit?
@@ -241,8 +301,12 @@ public class HelloTVXlet implements Xlet, HActionListener {
             //je hebt de vraag goed beantwoord
             System.out.println("juist!!");
             vraagnr++; //op naar de volgende
-            
-        }  
+            goedAntwoord =true;
+            scene.repaint();
+        }
+        
+        //else
+        //goedAntwoord = false;
     }
     
         if(e.getActionCommand().equals("triviaAntw2_actioned"))
@@ -252,6 +316,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
                 //je hebt de vraag goed beantwoord  
                 System.out.println("juist!!");
                 vraagnr++; //op naar de volgende
+                goedAntwoord =true;
                 scene.repaint();              
             }    
         }
@@ -263,7 +328,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
             {
                 System.out.println("juist!!");
                 vraagnr++;
-                scene.invalidate();
+                goedAntwoord =true;
                 scene.repaint();
 
                 //je hebt de vraag goed beantwoord
@@ -275,8 +340,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
             if(objTriviaVraag.correct.equals("4e antwoord"))
             {
                  System.out.println("juist!!");
+                 goedAntwoord =true;
                  vraagnr++;
-
+                 scene.repaint();
                 //je hebt de vraag goed beantwoord
             }   
         }
