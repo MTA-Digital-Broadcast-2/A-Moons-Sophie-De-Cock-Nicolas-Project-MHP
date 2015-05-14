@@ -18,14 +18,14 @@ public class HelloTVXlet implements Xlet, HActionListener {
     public HScene scene; //elke scene is interactief, dus 2 scenes.
     
     //initialiseer knopobject
-    public HTextButton startKnop, stopKnop, hulpKnop, 
+    public HTextButton startKnop, stopKnop, hulpKnop, backKnop,
             triviaAntw1, triviaAntw2,triviaAntw3, triviaAntw4;
     public HStaticText triviaVraag;
     //private Image
     private boolean debug = true;
     
     //nieuwe backgrounds
-    public ImageComponent backgroundMenu, backgroundVraag;
+    public ImageComponent backgroundMenu, backgroundBord, handleidingGame; //menu en spelbord
     
     Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
     double scWidth = screensize.width;
@@ -74,15 +74,26 @@ public class HelloTVXlet implements Xlet, HActionListener {
      hulpKnop.setBackground(new DVBColor(0,0,0,179));
      hulpKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
      
+     //Handleiding
+     backKnop =new HTextButton("Terug");
+     backKnop.setLocation(300,480);
+     backKnop.setSize(130,50);
+     backKnop.setBackground(new DVBColor(0,0,0,179));
+     backKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
+     
      //Navigeerbaar maken
      startKnop.setFocusTraversal(null, stopKnop, null,hulpKnop);
      stopKnop.setFocusTraversal(startKnop, null, null,hulpKnop);
      hulpKnop.setFocusTraversal(null,null, startKnop,null);
      
+     backKnop.setFocusTraversal(null,null, null,null);
+     
      //knop aan scene toevoegen
      scene.add(startKnop);
      scene.add(stopKnop);
      scene.add(hulpKnop);
+     
+     scene.add(backKnop);
      
      //Requestknop Menu
      startKnop.requestFocus(); //Menu
@@ -98,7 +109,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      scene.add(backgroundMenu);
      scene.repaint(); //wat doet dit?
-     
+    
      }
 
     public void startXlet() {
@@ -113,9 +124,16 @@ public class HelloTVXlet implements Xlet, HActionListener {
      startKnop.setActionCommand("startKnop_actioned");
      stopKnop.setActionCommand("stopKnop_actioned");
      hulpKnop.setActionCommand("hulpKnop_actioned");
+     
+     backKnop.setActionCommand("backKnop_actioned");
+     
      startKnop.addHActionListener(this);
      stopKnop.addHActionListener(this);
      hulpKnop.addHActionListener(this);
+     
+     backKnop.addHActionListener(this);
+     
+     backKnop.setVisible(false);
      
      //Vraag
      //scene.validate();
@@ -153,6 +171,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      //invisible achtergrondmenu
      backgroundMenu.setVisible(false); 
     
+    
      //manueel knoppen onzichtbaar maken
      startKnop.setVisible(false);
      stopKnop.setVisible(false);
@@ -160,6 +179,11 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      //Nieuwe vraag maken, huidige scene meegeven + vraag / antw1 / antw2 / antw3 / antw4 + int juisteAntw (getal dat zegt welk antwoord juist is)
      scene = objTriviaVraag.nieuweVraagMaken(scene,"","","","","",""); 
+     
+     //achtergrond vragen = spelbord
+     backgroundBord = new ImageComponent("Howard_Drew_Theatre_Layout.png",0,0,(int)scWidth, (int)scHeight);
+     scene.add(backgroundBord);
+     scene.repaint(); //wat doet dit?
           
      //focus op 1e antwoord knop
      objTriviaVraag.triviaAntw1.requestFocus();
@@ -177,12 +201,36 @@ public class HelloTVXlet implements Xlet, HActionListener {
     
     if(e.getActionCommand().equals("stopKnop_actioned"))
     {
-        
+        System.exit(0); //stopt applicatie
     }
     
     if(e.getActionCommand().equals("hulpKnop_actioned"))
     {
-
+     hulpKnop.setVisible(false);
+     startKnop.setVisible(false);
+     stopKnop.setVisible(false);
+     
+     backKnop.setVisible(true);
+     backKnop.requestFocus();
+     
+     backgroundMenu.setVisible(false); 
+        
+     handleidingGame = new ImageComponent("gordijn handleiding.png",0,0,(int)scWidth, (int)scHeight);
+     scene.add(handleidingGame);
+     scene.repaint(); //wat doet dit?
+    }
+    
+    if(e.getActionCommand().equals("backKnop_actioned"))
+    {
+     hulpKnop.setVisible(true);
+     startKnop.setVisible(true);
+     stopKnop.setVisible(true);
+     
+     backKnop.setVisible(false);
+     startKnop.requestFocus();
+     
+     handleidingGame.setVisible(false);
+     backgroundMenu.setVisible(true); 
     }
     
     //antwoord knoppen
@@ -240,24 +288,225 @@ public class HelloTVXlet implements Xlet, HActionListener {
      {
          case 1: 
              System.out.println("Het is de 1ste vraag");
-                   objTriviaVraag.VragenVeranderen("Is dit de 1ste vraag?",
-                                                    "Oh mijn hemeltje lief, JA!",
-                                                    "Dit is uiterst mogelijk",
-                                                    "JA! JAAAA! JAAAAA",
-                                                    "Neih...",
+                   objTriviaVraag.VragenVeranderen("Wie was het 1ste personage dat sprak in Star Wars?",
+                                                    "Luke Skywalker",
+                                                    "Prinses Leia",
+                                                    "C3PO",
+                                                    "R2-D2",
                                                      "3e antwoord");  
   
          break;
          
          case 2: 
              
-             objTriviaVraag.VragenVeranderen("Wat is het antwoord op de 2e vraag?",
-                                                    "Dit is misschien het antwoord",
-                                                    "Dit is mogelijks het antwoord",
-                                                    "Dit is zeker niet het antwoord",
-                                                    "Dit is onwaarschijnlijk als antwoord",
+             objTriviaVraag.VragenVeranderen("Wat was Sylvester Stalones job voordat hij acteur werd?",
+                                                    "Reinigde leeuwenkooien",
+                                                    "Professionele bokser",
+                                                    "Olifantenmestopruimer",
+                                                    "Postbode",
+                                                     "1e antwoord");   
+         break;
+
+         case 3: 
+             
+             objTriviaVraag.VragenVeranderen("Wat was Bambi's 1ste woord?",
+                                                    "Vlinder",
+                                                    "Konijn",
+                                                    "Vogel",
+                                                    "Levensverzekering",
                                                      "3e antwoord");   
          break;
+         
+         case 4: 
+             
+             objTriviaVraag.VragenVeranderen("Hoe heet de protagonist in de musical Chicago?",
+                                                    "Sarah Rose",
+                                                    "Roxy Hart",
+                                                    "Mary Summer",
+                                                    "Barbara Lee",
+                                                     "2e antwoord");   
+         break;
+         
+         case 5: 
+             
+             objTriviaVraag.VragenVeranderen("In de film Alien, wat was het huisdier van Ripley?",
+                                                    "Kanarievogel",
+                                                    "Ze had geen huisdier",
+                                                    "Kat",
+                                                    "Muis",
+                                                     "3e antwoord");   
+         break;
+         
+         case 6: 
+             
+             objTriviaVraag.VragenVeranderen("Wat is de naam van de gestoorde dokter in"+"\n"+"The Rocky Horror Picture Show?",
+                                                    "Dr. Frankenstein",
+                                                    "Dr. Frankenschwein",
+                                                    "Dr. Frankenfurter",
+                                                    "Dr. Frankenfrey",
+                                                     "3e antwoord");   
+         break;
+         
+         case 7: 
+             
+             objTriviaVraag.VragenVeranderen("Wie is de meest genomineerde acteur/actrice"+"\n"+"voor een Oscar?",
+                                                    "Leonardo Di Caprio",
+                                                    "Meryl Streep",
+                                                    "Jack Nicholson",
+                                                    "Al Pacino",
+                                                     "2e antwoord");   
+        break;
+        
+        case 8: 
+             
+             objTriviaVraag.VragenVeranderen("Wat was de geniale manier waarop E.T. piraterij"+"\n"+"tegin ging?",
+                                                    "Hun videocassettes waren"+"\n"+"allemaal groen",
+                                                    "Er zat een speciaal"+"\n"+"gecodeerde sticker op de cassette",
+                                                    "Ze brachten geen"+"\n"+"video's uit",
+                                                    "Er was een geheime boodschap"+"\n"+"op het einde van de film",
+                                                     "1e antwoord");   
+        break;
+        
+        case 9: 
+             
+             objTriviaVraag.VragenVeranderen("In welke film kan je Mickey Mouse en Bugs Bunny in"+"\n"+"dezelfde scene zien?",
+                                                    "Looney Tunes: Back In Action",
+                                                    "Who Framed Roger Rabbit",
+                                                    "Bah, Humduck!",
+                                                    "Fantasia 2000",
+                                                     "2e antwoord");   
+        break;
+        
+       case 10: 
+             
+             objTriviaVraag.VragenVeranderen("Welke pil nam Neo in The Matrix?",
+                                                    "De rode",
+                                                    "De blauwe",
+                                                    "Hij nam ze allebei",
+                                                    "Hij nam er geen",
+                                                     "2e antwoord");   
+        break;
+        
+       case 11: 
+             
+             objTriviaVraag.VragenVeranderen("Wie sprak de stem in voor President Business in"+"\n"+"The Lego Movie?",
+                                                    "Peter Cullen",
+                                                    "Chad Smith",
+                                                    "Will Ferrell",
+                                                    "Steve Blum",
+                                                     "3e antwoord");   
+        break;
+        
+       case 12: 
+             
+             objTriviaVraag.VragenVeranderen("Hoe heet de film gespeeld, geschreven en geregiseerd"+"\n"+"door Tommy Wiseau?",
+                                                    "The Chamber",
+                                                    "The House",
+                                                    "The Room",
+                                                    "The Closet",
+                                                     "3e antwoord");   
+        break;
+        
+       case 13: 
+             
+             objTriviaVraag.VragenVeranderen("Welke film heeft het meest verdiend in de geschiedenis"+"\n"+"van cinema?",
+                                                    "Avatar",
+                                                    "Frozen",
+                                                    "Titanic",
+                                                    "The Lion King",
+                                                     "1e antwoord");   
+        break;
+     
+       case 14: 
+             
+             objTriviaVraag.VragenVeranderen("Wie of wat is Rosebud in Citizen Kane?",
+                                                    "Zijn kont dat jeukte",
+                                                    "Mrs. Pauwels",
+                                                    "Zijn wachtwoord voor"+"\n"+"de kluis",
+                                                    "Ik slaag deze vraag over",
+                                                     "4e antwoord");   
+        break;
+        
+       case 15: 
+             
+             objTriviaVraag.VragenVeranderen("Hoe heet de Directeur van S.H.I.E.L.D in "+"\n"+"The Avengers?",
+                                                    "Nick Missouri",
+                                                    "Nick Murrey",
+                                                    "Nick Shirley",
+                                                    "Nick Fury",
+                                                     "4e antwoord");   
+        break;
+        
+       case 16: 
+             
+             objTriviaVraag.VragenVeranderen("Wat was de werktitel van"+"\n"+"Star Wars: Return of The Jedi?",
+                                                    "Space fight",
+                                                    "Blue Harvest",
+                                                    "Laser Swordfight Extreme",
+                                                    "Space Balls",
+                                                     "2e antwoord");   
+        break;
+        
+        
+       case 17: 
+             
+             objTriviaVraag.VragenVeranderen("In welke Saw film zaagt men effectief iets?",
+                                                    "Saw I",
+                                                    "Saw II",
+                                                    "Saw III",
+                                                    "Het gebeurt nooit",
+                                                     "1e antwoord");   
+        break;
+        
+       case 18: 
+             
+             objTriviaVraag.VragenVeranderen("Wat is de Cornetto Trilogy?",
+                                                    "3 Britse films met"+"\n"+"3 verschillende cornetto's",
+                                                    "De 3 slechtste"+"\n"+"Italiaanse westerns",
+                                                    "De 3 meligste Spaanse"+"\n"+"romantische films",
+                                                    "Dat bestaat niet!",
+                                                     "1e antwoord");   
+        break;
+        
+       case 19: 
+             
+             objTriviaVraag.VragenVeranderen("In Eurotrip, wat was de nationaliteit van de in"+"\n"+"buitenland wonende crush?",
+                                                    "Brits",
+                                                    "Belgisch",
+                                                    "Frans",
+                                                    "Nederlands",
+                                                     "4e antwoord");   
+        break;
+        
+       case 20: 
+             
+             objTriviaVraag.VragenVeranderen("In Harry Potter and The Deathly Hallows, wie"+"\n"+"sterft er niet?",
+                                                    "Dobby",
+                                                    "Dumbledore",
+                                                    "Hedwig",
+                                                    "George Weasley",
+                                                     "4e antwoord");   
+        break;
+        
+       case 21: 
+             
+             objTriviaVraag.VragenVeranderen("Wat voor taart werd er misbruikt in American Pie?",
+                                                    "Appeltaart",
+                                                    "Bosbessentaart",
+                                                    "Kersentaart",
+                                                    "Rabarbertaart",
+                                                     "1e antwoord");   
+        break;
+        
+       case 22: 
+             
+             objTriviaVraag.VragenVeranderen("Welk dier valt op dramatische wijze in een klif in"+"\n"+"Ace Ventura Natura Calls?",
+                                                    "Stokstaartje",
+                                                    "Fret",
+                                                    "Capucijnaapje",
+                                                    "Wasbeer",
+                                                     "1e antwoord");   
+        break;
      }
     
      /*scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",

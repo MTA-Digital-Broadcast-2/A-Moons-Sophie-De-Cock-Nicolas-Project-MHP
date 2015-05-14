@@ -1,34 +1,43 @@
 Signature-Version: 1.0
 Created-By: 1.6.0_16 (Sun Microsystems Inc.)
 BDJ-Signature-Version: 1.0
-SHA1-Digest-Manifest: 0mikHoNw9HsuxV0x29oltdkNSXo=
-
-Name: hellotvxlet/HelloTVXlet.class
-SHA1-Digest: 8xFMJxgn77T4VAN7/Y698KqEkg8=
+SHA1-Digest-Manifest: YTC9lHRHmKsJzmO78aHOUSNFhNQ=
 
 Name: hellotvxlet/MijnTriviavraag.class
-SHA1-Digest: qFz3J9/AXvaIb52LOwPdvhHZIdc=
+SHA1-Digest: PKTL5jlGXIMUcwOBVz8Mgcqn4CQ=
 
 Name: Howard_Drew_Theatre_Layout.png
-SHA1-Digest: jm9buD2kdwrHOhQuaOEDZ1qtlOw=
-
-Name: hellotvxlet/SolidColorComponent.class
-SHA1-Digest: G7shJHWIZAt/5/8ujUQ1hVGE+WE=
+SHA1-Digest: ag0rVjCf88+G2lFgIl+GXrhdEpM=
 
 Name: hellotvxlet/ImageComponent.class
 SHA1-Digest: kdQLjmYyC6ThzYSFVdL1FG0OfLA=
 
+Name: hellotvxlet/Background.class
+SHA1-Digest: CC/MLscPGFxVBzt3eTFjbReA8CY=
+
+Name: hellotvxlet/HelloTVXlet.class
+SHA1-Digest: vuq9/2262/A/Im9msOopdXFgUWU=
+
+Name: Security sprite.png
+SHA1-Digest: bwVAG+zBrED9TxnnyUHTTrX0gDA=
+
+Name: Cinefieltje sprite.png
+SHA1-Digest: 2VWq3YYX9jxyN8bdWfA+GZKhrkI=
+
+Name: hellotvxlet/SolidColorComponent.class
+SHA1-Digest: G7shJHWIZAt/5/8ujUQ1hVGE+WE=
+
 Name: gordijn.png
-SHA1-Digest: ZQmKbYbOxyjOHRynoFati7W42PY=
+SHA1-Digest: R1XlT7LhzpK/tgi+KVWCCLn6e/M=
 
 Name: hellotvxlet/bluray.HelloTVXlet.perm
 SHA1-Digest: 84ZO/rYCyy0JStmaLbg1GDVEFhQ=
 
-Name: hellotvxlet/Background.class
-SHA1-Digest: CC/MLscPGFxVBzt3eTFjbReA8CY=
-
 Name: hellotvxlet/ColorBox.class
 SHA1-Digest: VoG8IYxCFwJnZ/HtpVxBfzNOVUY=
+
+Name: gordijn handleiding.png
+SHA1-Digest: 0pbKX2U4DvxmsGgumEEDSxQyUEo=
 
 Name: hellotvxlet/WrongAnswer.class
 SHA1-Digest: I+lG/5nD94JNhkFfmEv5FpfJZ4g=
