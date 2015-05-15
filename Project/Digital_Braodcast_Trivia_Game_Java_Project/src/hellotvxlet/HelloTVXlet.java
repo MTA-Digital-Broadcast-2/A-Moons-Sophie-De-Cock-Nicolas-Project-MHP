@@ -24,28 +24,31 @@ public class HelloTVXlet implements Xlet, HActionListener {
     //private Image
     private boolean debug = true;
     
-    private boolean goedAntwoord;
+    public boolean goedAntwoord, antwoordGegeven =false;
     
     //nieuwe backgrounds
     public ImageComponent backgroundMenu, backgroundBord, handleidingGame; //menu en spelbord
     
     //Sprites
-    public ImageComponent[] spriteCinefiel = new ImageComponent[21]; //sprite (array van vss posities) Cinefiel
-    public ImageComponent[] spriteSecurity = new ImageComponent [21]; //sprite (array van vss posities) Security
+    public ImageComponent spriteCinefielIm; //ook als gewone image krijg ik het niet normaal op
     
-    public String pathImageCinefiel="Cinefieltje sprite.png";
-    public String pathImageSecurity="Security sprite.png";
+//    public SpriteCinefiel spriteCinefiel;
+//    public SpriteSecurity spriteSecurity;
     
     public int startYPos = 513;
     public int startXPos = 329;
     
+    public int eersteYPos = 513;
+    public int eersteXPos = 329;
+    
     public int widthCine = 53;
     public int heightCine = 50;
     
-    public int widthSecu = 53;
-    public int heightSecu = 66;
+//    public int[] YPosCine,XPosCine;
     
-    public int goedeAntwoorden=0;
+    public int goedeAntwoorden; //om de spritearray af te gaan  
+
+    //public int aantalBeurten=0; //voor de Security te triggeren (na 3 beurten)
     
     //Screen
     Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -54,8 +57,8 @@ public class HelloTVXlet implements Xlet, HActionListener {
     
     //klasse om een vraag aan te maken, 1 object aanmaken zodat methode voor nieuwe scene gebruikt kan worden
     MijnTriviavraag objTriviaVraag = new MijnTriviavraag();
-    
-    public int vraagnr = 1; //test
+       
+    public int vraagnr = 1;
 
   
     public HelloTVXlet() { }
@@ -119,31 +122,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
      //Requestknop Menu
      startKnop.requestFocus(); //Menu
 
-     //Sprites
-     spriteCinefiel[0]= new ImageComponent(pathImageCinefiel,startXPos,startYPos,widthCine,heightCine);
-     spriteCinefiel[1]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-21,widthCine,heightCine);
-     spriteCinefiel[2]= new ImageComponent(pathImageCinefiel,startXPos-21,startYPos-21,widthCine,heightCine);
-     spriteCinefiel[3]= new ImageComponent(pathImageCinefiel,startXPos-42,startYPos-21,widthCine,heightCine);
-     spriteCinefiel[4]= new ImageComponent(pathImageCinefiel,startXPos-63,startYPos-21,widthCine,heightCine);
-     spriteCinefiel[5]= new ImageComponent(pathImageCinefiel,startXPos-84,startYPos-21,widthCine,heightCine);
-     spriteCinefiel[6]= new ImageComponent(pathImageCinefiel,startXPos-79,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[7]= new ImageComponent(pathImageCinefiel,startXPos-58,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[8]= new ImageComponent(pathImageCinefiel,startXPos-37,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[9]= new ImageComponent(pathImageCinefiel,startXPos-16,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[10]= new ImageComponent(pathImageCinefiel,startXPos+5,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[11]= new ImageComponent(pathImageCinefiel,startXPos+26,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[12]= new ImageComponent(pathImageCinefiel,startXPos+47,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[13]= new ImageComponent(pathImageCinefiel,startXPos+68,startYPos-45,widthCine,heightCine);
-     spriteCinefiel[14]= new ImageComponent(pathImageCinefiel,startXPos+78,startYPos-65,widthCine,heightCine);
-     spriteCinefiel[15]= new ImageComponent(pathImageCinefiel,startXPos+57,startYPos-65,widthCine,heightCine);
-     spriteCinefiel[16]= new ImageComponent(pathImageCinefiel,startXPos+36,startYPos-65,widthCine,heightCine);
-     spriteCinefiel[17]= new ImageComponent(pathImageCinefiel,startXPos+15,startYPos-65,widthCine,heightCine);
-     spriteCinefiel[18]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-85,widthCine,heightCine);
-     spriteCinefiel[19]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-106,widthCine,heightCine);
-     spriteCinefiel[20]= new ImageComponent(pathImageCinefiel,startXPos,startYPos-127,widthCine,heightCine);
-
-     scene.add(spriteCinefiel[0]);
-
      //Background ImageComponent
      backgroundMenu = new ImageComponent("gordijn.png",0,0,(int)scWidth, (int)scHeight);
      System.out.println("Image width: "+scWidth);
@@ -151,7 +129,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      scene.add(backgroundMenu);
      scene.repaint(); //wat doet dit?
-    
+
+     
+     goedeAntwoorden=0; //moet posArray opvolgen
      }
 
     public void startXlet() {
@@ -177,7 +157,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      backKnop.setVisible(false);
      
-     spriteCinefiel[0].setVisible(false);   
     }
 
     public void pauseXlet() {
@@ -220,29 +199,21 @@ public class HelloTVXlet implements Xlet, HActionListener {
      //Nieuwe vraag maken, huidige scene meegeven + vraag / antw1 / antw2 / antw3 / antw4 + int juisteAntw (getal dat zegt welk antwoord juist is)
      scene = objTriviaVraag.nieuweVraagMaken(scene,"","","","","",""); 
 
-     spriteCinefiel[0].setVisible(true); //startpositie cinefieltje
-     
-     //Sprites
-     if(goedAntwoord)
-     {
-     System.out.println("Er is een juist antwoord gegeven!");
-     
-     spriteCinefiel[goedeAntwoorden].setVisible(false);
-     
-     goedeAntwoorden++;     
-     
-     scene.add(spriteCinefiel[goedeAntwoorden]);
-     scene.repaint();
-     
-     goedAntwoord = false;
-     }
+//     ImageComponent spriteCineImage = spriteCinefiel.nieuweSpriteMaken();
      
      //achtergrond vragen = spelbord
      backgroundBord = new ImageComponent("Howard_Drew_Theatre_Layout.png",0,0,(int)scWidth, (int)scHeight);
+     
+//     eersteXPos=XPosCine[goedeAntwoorden];
+//     eersteYPos=YPosCine[goedeAntwoorden];
+     
+     spriteCinefielIm = new ImageComponent("Cinefieltje sprite.png",eersteXPos,eersteYPos,widthCine,heightCine); //De enige manier momenteel waarmee ik de sprite erop kan krijgen
+
+//     scene.add(spriteCineImage);
+     
+     scene.add(spriteCinefielIm);
      scene.add(backgroundBord);
      scene.repaint(); //wat doet dit?
-     
-
      
      //focus op 1e antwoord knop
      objTriviaVraag.triviaAntw1.requestFocus();
@@ -255,8 +226,10 @@ public class HelloTVXlet implements Xlet, HActionListener {
      objTriviaVraag.triviaAntw1.addHActionListener(this); 
      objTriviaVraag.triviaAntw2.addHActionListener(this); 
      objTriviaVraag.triviaAntw3.addHActionListener(this); 
-     objTriviaVraag.triviaAntw4.addHActionListener(this); 
+     objTriviaVraag.triviaAntw4.addHActionListener(this);  
+     
     }
+    
     
     if(e.getActionCommand().equals("stopKnop_actioned"))
     {
@@ -300,13 +273,14 @@ public class HelloTVXlet implements Xlet, HActionListener {
         {
             //je hebt de vraag goed beantwoord
             System.out.println("juist!!");
+            goedAntwoord = true;
             vraagnr++; //op naar de volgende
-            goedAntwoord =true;
             scene.repaint();
         }
-        
         //else
-        //goedAntwoord = false;
+         //goedAntwoord = false;
+         antwoordGegeven=true;
+         checkVooruitgang();
     }
     
         if(e.getActionCommand().equals("triviaAntw2_actioned"))
@@ -315,10 +289,16 @@ public class HelloTVXlet implements Xlet, HActionListener {
             {
                 //je hebt de vraag goed beantwoord  
                 System.out.println("juist!!");
+                goedAntwoord = true;
                 vraagnr++; //op naar de volgende
-                goedAntwoord =true;
                 scene.repaint();              
             }    
+         //else
+         //goedAntwoord = false;
+            
+        antwoordGegeven=true;
+        checkVooruitgang();
+        
         }
         if(e.getActionCommand().equals("triviaAntw3_actioned"))
         {
@@ -327,12 +307,16 @@ public class HelloTVXlet implements Xlet, HActionListener {
             if(objTriviaVraag.correct.equals("3e antwoord"))
             {
                 System.out.println("juist!!");
-                vraagnr++;
                 goedAntwoord =true;
-                scene.repaint();
-
-                //je hebt de vraag goed beantwoord
+                vraagnr++;
+                scene.repaint();      
             }
+         //else
+         //goedAntwoord = false;
+            
+        antwoordGegeven=true;
+        checkVooruitgang();
+        
         }
     
             if(e.getActionCommand().equals("triviaAntw4_actioned")) 
@@ -343,17 +327,21 @@ public class HelloTVXlet implements Xlet, HActionListener {
                  goedAntwoord =true;
                  vraagnr++;
                  scene.repaint();
-                //je hebt de vraag goed beantwoord
-            }   
+            }  
+         //else
+         //goedAntwoord = false;
+            
+        antwoordGegeven=true;
+        checkVooruitgang();
+        
         }
     
     //Hier switchen we van vragen
-     System.out.println("vraagnr:::::: " + vraagnr);
+     System.out.println("vraagnr: " + vraagnr);
      
      switch(vraagnr)
      {
          case 1: 
-             System.out.println("Het is de 1ste vraag");
                    objTriviaVraag.VragenVeranderen("Wie was het 1ste personage dat sprak in Star Wars?",
                                                     "Luke Skywalker",
                                                     "Prinses Leia",
@@ -516,7 +504,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
         
        case 17: 
              
-             objTriviaVraag.VragenVeranderen("In welke Saw film zaagt men effectief iets?",
+             objTriviaVraag.VragenVeranderen("In welke Saw film zaagt men effectief iets af?",
                                                     "Saw I",
                                                     "Saw II",
                                                     "Saw III",
@@ -573,14 +561,197 @@ public class HelloTVXlet implements Xlet, HActionListener {
                                                     "Wasbeer",
                                                      "1e antwoord");   
         break;
+        
+       case 23: 
+             
+             objTriviaVraag.VragenVeranderen("Welk videogame personage verschijnt niet in"+"\n"+"Wreck It Ralph?",
+                                                    "Sonic",
+                                                    "Mario",
+                                                    "Bowser",
+                                                    "Pacman",
+                                                     "2e antwoord");   
+        break;
+        
+       case 24: 
+             
+             objTriviaVraag.VragenVeranderen("Wat was de naam van de gravin in The Curse of"+"\n"+"The Were-rabbit?",
+                                                    "Lady Tottington",
+                                                    "Lady Tête de Carotte",
+                                                    "Lady Bakeswell",
+                                                    "Lady Thingers",
+                                                     "1e antwoord");   
+        break;
+        
+       case 25: 
+             
+             objTriviaVraag.VragenVeranderen("Waar halen de Na'vi uit Avatar hun levenskracht van?",
+                                                    "De Boom des Tijds",
+                                                    "De Boom der Leven",
+                                                    "De Boom der Wijsheid",
+                                                    "De Boom der Zielen",
+                                                     "4e antwoord");   
+        break;
+
+       case 26: 
+             
+             objTriviaVraag.VragenVeranderen("Welke basketballster speelt de hoofdrol in Space Jam?",
+                                                    "Trent Tucker",
+                                                    "John Paxson",
+                                                    "Micheal Jordan",
+                                                    "Corey Williams",
+                                                     "3e antwoord");   
+        break;
+     }
+     
+//     switch(goedeAntwoorden)
+//     {
+//         case 1:
+//             spriteCinefiel.changePosition();
+//             break;
+//     }
      }
     
-     /*scene = objTriviaVraag.nieuweVraagMaken(scene,"Wat is het antwoord op de 1e vraag?",
-                                                    "Dit is misschien het antwoord",
-                                                    "Dit is mogelijks het antwoord",
-                                                    "Dit is zeker niet het antwoord",
-                                                    "Dit is onwaarschijnlijk als antwoord",
-                                                "1e antwoord");*/  
+    public void checkVooruitgang() //zou de doorloop of stilstaan van de positiearray moeten verzorgen
+    {
+    //Sprites, wanneer een antwoord gegeven is, wordt het spelbord getoond
+         System.out.println("CHECKING VOORUITGANG");
+         
+//     objTriviaVraag.triviaVraag.setVisible(false);
+//     objTriviaVraag.triviaAntw1.setVisible(false);
+//     objTriviaVraag.triviaAntw2.setVisible(false);
+//     objTriviaVraag.triviaAntw3.setVisible(false);
+//     objTriviaVraag.triviaAntw4.setVisible(false);
+
+     
+     if(antwoordGegeven==true)
+     {
+     System.out.println("Er is een antwoord gegeven!");
+
+               
+     if(goedAntwoord==true) //wanneer het antwoord juist is, wordt de volgende positie sprite ge-add
+     {
+     System.out.println("Er is een JUIST antwoord gegeven");    
+     
+     System.out.println("DE VORIGE SPRITE POS WAS NR: "+goedeAntwoorden);
+
+     //SpriteCinefiel
+     switch(goedeAntwoorden)
+     {     
+         case 0:
+             spriteCinefielIm.MoveImage(eersteXPos, eersteYPos - 75);
+             break;
+
+         case 1:
+             spriteCinefielIm.MoveImage(eersteXPos - 55, eersteYPos - 75);
+             break;
+
+         case 2:
+             spriteCinefielIm.MoveImage(eersteXPos - 110, eersteYPos - 75);
+             break;
+
+         case 3:
+             spriteCinefielIm.MoveImage(eersteXPos - 175, eersteYPos - 75);
+             break;
+
+         case 4:
+             spriteCinefielIm.MoveImage(eersteXPos - 230, eersteYPos - 75);
+             break;
+
+         case 5:
+             spriteCinefielIm.MoveImage(eersteXPos - 220, eersteYPos - 145);
+             break;
+
+         case 6:
+             spriteCinefielIm.MoveImage(eersteXPos - 165, eersteYPos - 145);
+             break;
+
+         case 7:
+             spriteCinefielIm.MoveImage(eersteXPos - 110, eersteYPos - 145);
+             break;
+
+         case 8:
+             spriteCinefielIm.MoveImage(eersteXPos -95, eersteYPos - 145);
+             break;
+
+         case 9:
+             spriteCinefielIm.MoveImage(eersteXPos +10, eersteYPos - 145);
+             break;
+
+         case 10:
+             spriteCinefielIm.MoveImage(eersteXPos + 75, eersteYPos - 145);
+             break;
+
+         case 11:
+             spriteCinefielIm.MoveImage(eersteXPos + 130, eersteYPos - 145);
+             break;
+
+         case 12:
+             spriteCinefielIm.MoveImage(eersteXPos + 195, eersteYPos - 145);
+             break;
+
+         case 13:
+             spriteCinefielIm.MoveImage(eersteXPos + 215, eersteYPos - 210);
+             break;
+
+         case 14:
+             spriteCinefielIm.MoveImage(eersteXPos + 155, eersteYPos - 210);
+             break;
+
+         case 15:
+             spriteCinefielIm.MoveImage(eersteXPos + 95, eersteYPos - 210);
+             break;
+
+         case 16:
+             spriteCinefielIm.MoveImage(eersteXPos + 35, eersteYPos - 210);
+             break;
+
+         case 17:
+             spriteCinefielIm.MoveImage(eersteXPos, eersteYPos - 250);
+             break;
+
+         case 18:
+             spriteCinefielIm.MoveImage(eersteXPos, eersteYPos - 330);
+             break;
+
+         case 19:
+             spriteCinefielIm.MoveImage(eersteXPos+2, eersteYPos - 400);
+             break;
+         }
+
+     goedeAntwoorden++;     
+     //aantalBeurten++; //voor wanneer de security sprite wordt geactiveerd (na 3 beurten)
+     
+     System.out.println("DE HUIDIGE SPRITE POS IS NU NR: "+goedeAntwoorden);
+     scene.repaint();
+          
+     goedAntwoord = false;
      }
+     
+     else if(goedAntwoord ==false) //wanneer het antwoord fout is, wordt de huidige positie sprite gehouden (geen goedeAntwoorden++)
+     {
+     System.out.println("Er is een FOUT antwoord gegeven");
+     
+     //aantalBeurten++; //voor wanneer de security sprite wordt geactiveerd (na 3 beurten)
+     }
+     
+       
+     antwoordGegeven=false;
+     }
+     
+     else if(antwoordGegeven=false)
+     {
+              try{
+     Thread.sleep(1000);
+     }
+     catch(InterruptedException ex){
+     Thread.currentThread().interrupt();
+     }
+     objTriviaVraag.triviaVraag.setVisible(true);
+     objTriviaVraag.triviaAntw1.setVisible(true);
+     objTriviaVraag.triviaAntw2.setVisible(true);
+     objTriviaVraag.triviaAntw3.setVisible(true);
+     objTriviaVraag.triviaAntw4.setVisible(true);
+     }
+    }
 }
 

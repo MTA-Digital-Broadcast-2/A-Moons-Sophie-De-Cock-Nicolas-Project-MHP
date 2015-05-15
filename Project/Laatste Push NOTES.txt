@@ -1,0 +1,67 @@
+SPELBORD ISSUES:
+
+- 1ste poging: array van images (zoals te zien hieronder)
+-> maar 1 image toonde zich, refreshte niet (kon de array niet af gaan)
+
+- 2de poging: array van objecten klasse SpriteCinefiel (vb.), returned een image met methode nieuweSpriteMaken
+-> raakt in conflict met andere images
+
+- 3de poging: 1 ImageComponent spriteCinefiel maken en de moveImage methode toepassen
+-> Werkt MAAR als ik een array van x en y posities probeer te gebruiken, komt het weer in conflict met de andere images
+-> zonder arraygebruik werkt het wel (wel veel ingewikkelder om in een routine te krijgen)
+
++++++ 4de poging: een switch met MoveImage methode
+-> WERKT!, de vragen kan ik invisible maken en dan verplaatst de sprite zich, alleen het terug visible maken van de vragen
+moet nog onderzocht worden
+-> Nu laat ik het even visible maar de sprite doet zijn diensten nog wel
+
+REFERENCES:
+Alle juiste posities staan in de (nu onnodige) klassen SpriteCinefiel en SpriteSecurity;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+spriteSecurity[0]= new ImageComponent(pathImageSecurity,startXPos,startYPos-15,widthSecu,heightSecu);
+//     spriteSecurity[1]= new ImageComponent(pathImageSecurity,startXPos,startYPos-90,widthSecu,heightSecu);
+//     spriteSecurity[2]= new ImageComponent(pathImageSecurity,startXPos-55,startYPos-90,widthSecu,heightSecu);
+//     spriteSecurity[3]= new ImageComponent(pathImageSecurity,startXPos-110,startYPos-90,widthSecu,heightSecu);
+//     spriteSecurity[4]= new ImageComponent(pathImageSecurity,startXPos-175,startYPos-90,widthSecu,heightSecu);
+//     spriteSecurity[5]= new ImageComponent(pathImageSecurity,startXPos-230,startYPos-90,widthSecu,heightSecu);
+//     spriteSecurity[6]= new ImageComponent(pathImageSecurity,startXPos-220,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[7]= new ImageComponent(pathImageSecurity,startXPos-165,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[8]= new ImageComponent(pathImageSecurity,startXPos-110,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[9]= new ImageComponent(pathImageSecurity,startXPos-45,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[10]= new ImageComponent(pathImageSecurity,startXPos+10,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[11]= new ImageComponent(pathImageSecurity,startXPos+75,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[12]= new ImageComponent(pathImageSecurity,startXPos+130,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[13]= new ImageComponent(pathImageSecurity,startXPos+195,startYPos-160,widthSecu,heightSecu);
+//     spriteSecurity[14]= new ImageComponent(pathImageSecurity,startXPos+215,startYPos-225,widthSecu,heightSecu);
+//     spriteSecurity[15]= new ImageComponent(pathImageSecurity,startXPos+155,startYPos-225,widthSecu,heightSecu);
+//     spriteSecurity[16]= new ImageComponent(pathImageSecurity,startXPos+95,startYPos-225,widthSecu,heightSecu);
+//     spriteSecurity[17]= new ImageComponent(pathImageSecurity,startXPos+35,startYPos-225,widthSecu,heightSecu);
+//     spriteSecurity[18]= new ImageComponent(pathImageSecurity,startXPos,startYPos-265,widthSecu,heightSecu);
+//     spriteSecurity[19]= new ImageComponent(pathImageSecurity,startXPos,startYPos-380,widthSecu,heightSecu);
+//     spriteSecurity[20]= new ImageComponent(pathImageSecurity,startXPos+2,startYPos-415,widthSecu,heightSecu);
+
