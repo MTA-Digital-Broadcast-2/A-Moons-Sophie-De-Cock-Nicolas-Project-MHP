@@ -1,10 +1,7 @@
 package hellotvxlet;
-import javax.tv.xlet.*;
 import org.dvb.ui.*;
 import org.havi.ui.*;
 //voor de acties die je wilt uitvoeren
-import org.havi.ui.event.*;
-import java.awt.event.*;
 
 public class MijnTriviavraag {
     public HScene vraagScene;

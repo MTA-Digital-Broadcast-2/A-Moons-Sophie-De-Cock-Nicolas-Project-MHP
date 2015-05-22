@@ -10,7 +10,10 @@ import java.awt.*;
 //voor de acties die je wilt uitvoeren
 import org.havi.ui.event.*;
 import java.awt.event.*;
-
+//import javax.sound.sampled.AudioInputStream;
+//import javax.sound.sampled.AudioSystem;
+//import javax.sound.sampled.Clip;
+//import java.io.File; //Muziek is voor later misschien
 
 public class HelloTVXlet implements Xlet, HActionListener {
 
@@ -19,7 +22,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
     
     //initialiseer knopobject
     public HTextButton startKnop, stopKnop, hulpKnop, backKnop,
-            triviaAntw1, triviaAntw2,triviaAntw3, triviaAntw4;
+            triviaAntw1, triviaAntw2,triviaAntw3, triviaAntw4, nextQuestionKnop;
     public HStaticText triviaVraag;
     //private Image
     private boolean debug = true;
@@ -27,10 +30,10 @@ public class HelloTVXlet implements Xlet, HActionListener {
     public boolean goedAntwoord, antwoordGegeven =false;
     
     //nieuwe backgrounds
-    public ImageComponent backgroundMenu, backgroundBord, handleidingGame; //menu en spelbord
+    public ImageComponent backgroundMenu, backgroundBord, handleidingGame, gameOverScreen,winScreen; //menu en spelbord
     
     //Sprites
-    public ImageComponent spriteCinefielIm; //ook als gewone image krijg ik het niet normaal op
+    public ImageComponent spriteCinefiel, spriteSecurity; //
     
 //    public SpriteCinefiel spriteCinefiel;
 //    public SpriteSecurity spriteSecurity;
@@ -38,15 +41,18 @@ public class HelloTVXlet implements Xlet, HActionListener {
     public int startYPos = 513;
     public int startXPos = 329;
     
-    public int eersteYPos = 513;
+    public int eersteYPosCine = 513;
     public int eersteXPos = 329;
     
-    public int widthCine = 53;
+    public int eersteYPosSecu=498;
+    
+    public int widthSprite = 53;
     public int heightCine = 50;
+    public int heightSecu = 70;
     
 //    public int[] YPosCine,XPosCine;
     
-    public int goedeAntwoorden; //om de spritearray af te gaan  
+    public int goedeAntwoorden, securitySteps; //om de spritearray af te gaan  
 
     //public int aantalBeurten=0; //voor de Security te triggeren (na 3 beurten)
     
@@ -105,12 +111,18 @@ public class HelloTVXlet implements Xlet, HActionListener {
      backKnop.setBackground(new DVBColor(0,0,0,179));
      backKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
      
+     //Next Question
+     nextQuestionKnop = new HTextButton("Volgende vraag");
+     nextQuestionKnop.setLocation(300,480);
+     nextQuestionKnop.setSize(130,50);
+     nextQuestionKnop.setBackground(new DVBColor(0,0,0,179));
+     nextQuestionKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
+     
+     
      //Navigeerbaar maken
      startKnop.setFocusTraversal(null, stopKnop, null,hulpKnop);
      stopKnop.setFocusTraversal(startKnop, null, null,hulpKnop);
      hulpKnop.setFocusTraversal(null,null, startKnop,null);
-     
-     backKnop.setFocusTraversal(null,null, null,null);
      
      //knop aan scene toevoegen
      scene.add(startKnop);
@@ -118,6 +130,8 @@ public class HelloTVXlet implements Xlet, HActionListener {
      scene.add(hulpKnop);
      
      scene.add(backKnop);
+     
+     scene.add(nextQuestionKnop);
      
      //Requestknop Menu
      startKnop.requestFocus(); //Menu
@@ -131,7 +145,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
      scene.repaint(); //wat doet dit?
 
      
-     goedeAntwoorden=0; //moet posArray opvolgen
+     goedeAntwoorden=0; //moet posArray Cinefiel opvolgen
+     securitySteps=0; //moet posArray Security opvolgen
+     
      }
 
     public void startXlet() {
@@ -140,7 +156,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
         }
      scene.validate();
      scene.setVisible(true);
-
+     
      //Acties laten uitvoeren
      //Menu  
      startKnop.setActionCommand("startKnop_actioned");
@@ -149,13 +165,18 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      backKnop.setActionCommand("backKnop_actioned");
      
+     nextQuestionKnop.setActionCommand("nextQuestionKnop_actioned");
+     
      startKnop.addHActionListener(this);
      stopKnop.addHActionListener(this);
      hulpKnop.addHActionListener(this);
      
      backKnop.addHActionListener(this);
      
+     nextQuestionKnop.addHActionListener(this);
+     
      backKnop.setVisible(false);
+     nextQuestionKnop.setVisible(false);
      
     }
 
@@ -198,20 +219,20 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      //Nieuwe vraag maken, huidige scene meegeven + vraag / antw1 / antw2 / antw3 / antw4 + int juisteAntw (getal dat zegt welk antwoord juist is)
      scene = objTriviaVraag.nieuweVraagMaken(scene,"","","","","",""); 
-
-//     ImageComponent spriteCineImage = spriteCinefiel.nieuweSpriteMaken();
      
      //achtergrond vragen = spelbord
      backgroundBord = new ImageComponent("Howard_Drew_Theatre_Layout.png",0,0,(int)scWidth, (int)scHeight);
-     
-//     eersteXPos=XPosCine[goedeAntwoorden];
-//     eersteYPos=YPosCine[goedeAntwoorden];
-     
-     spriteCinefielIm = new ImageComponent("Cinefieltje sprite.png",eersteXPos,eersteYPos,widthCine,heightCine); //De enige manier momenteel waarmee ik de sprite erop kan krijgen
 
-//     scene.add(spriteCineImage);
      
-     scene.add(spriteCinefielIm);
+     spriteCinefiel = new ImageComponent("Cinefieltje sprite.png",eersteXPos,eersteYPosCine,widthSprite,heightCine); //De enige manier momenteel waarmee ik de sprite erop kan krijgen
+     
+     spriteSecurity = new ImageComponent("Security sprite.png",eersteXPos,eersteYPosCine-10,widthSprite,heightSecu);
+     
+     scene.add(spriteCinefiel);
+     
+     scene.add(spriteSecurity);//security komt pas na 4 beurten
+     spriteSecurity.setVisible(false);
+     
      scene.add(backgroundBord);
      scene.repaint(); //wat doet dit?
      
@@ -266,6 +287,17 @@ public class HelloTVXlet implements Xlet, HActionListener {
      backgroundMenu.setVisible(true); 
     }
     
+    if(e.getActionCommand().equals("nextQuestionKnop_actioned"))
+    {
+    objTriviaVraag.triviaVraag.setVisible(true);
+    objTriviaVraag.triviaAntw1.setVisible(true);
+    objTriviaVraag.triviaAntw2.setVisible(true);
+    objTriviaVraag.triviaAntw3.setVisible(true);
+    objTriviaVraag.triviaAntw4.setVisible(true);
+    
+     nextQuestionKnop.setVisible(false);
+    }
+    
     //antwoord knoppen
     if(e.getActionCommand().equals("triviaAntw1_actioned")) 
     {        
@@ -274,13 +306,16 @@ public class HelloTVXlet implements Xlet, HActionListener {
             //je hebt de vraag goed beantwoord
             System.out.println("juist!!");
             goedAntwoord = true;
-            vraagnr++; //op naar de volgende
             scene.repaint();
         }
-        //else
-         //goedAntwoord = false;
-         antwoordGegeven=true;
-         checkVooruitgang();
+        
+        else
+        {
+        goedAntwoord=false;
+        }
+         
+        antwoordGegeven=true;
+        checkVooruitgang();
     }
     
         if(e.getActionCommand().equals("triviaAntw2_actioned"))
@@ -290,7 +325,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
                 //je hebt de vraag goed beantwoord  
                 System.out.println("juist!!");
                 goedAntwoord = true;
-                vraagnr++; //op naar de volgende
                 scene.repaint();              
             }    
          //else
@@ -308,7 +342,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
             {
                 System.out.println("juist!!");
                 goedAntwoord =true;
-                vraagnr++;
                 scene.repaint();      
             }
          //else
@@ -325,7 +358,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
             {
                  System.out.println("juist!!");
                  goedAntwoord =true;
-                 vraagnr++;
                  scene.repaint();
             }  
          //else
@@ -342,7 +374,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      switch(vraagnr)
      {
          case 1: 
-                   objTriviaVraag.VragenVeranderen("Wie was het 1ste personage dat sprak in Star Wars?",
+                   objTriviaVraag.VragenVeranderen("Wie was het 1ste personage dat sprak in Star Wars: A New Hope?",
                                                     "Luke Skywalker",
                                                     "Prinses Leia",
                                                     "C3PO",
@@ -378,7 +410,10 @@ public class HelloTVXlet implements Xlet, HActionListener {
                                                     "Roxy Hart",
                                                     "Mary Summer",
                                                     "Barbara Lee",
-                                                     "2e antwoord");   
+                                                     "2e antwoord");
+             
+             spriteSecurity.setVisible(true); //Let's go!
+             
          break;
          
          case 5: 
@@ -413,7 +448,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
         
         case 8: 
              
-             objTriviaVraag.VragenVeranderen("Wat was de geniale manier waarop E.T. piraterij"+"\n"+"tegin ging?",
+             objTriviaVraag.VragenVeranderen("Wat was de geniale manier waarop E.T. piraterij"+"\n"+"tegen ging?",
                                                     "Hun videocassettes waren"+"\n"+"allemaal groen",
                                                     "Er zat een speciaal"+"\n"+"gecodeerde sticker op de cassette",
                                                     "Ze brachten geen"+"\n"+"video's uit",
@@ -536,7 +571,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
              
              objTriviaVraag.VragenVeranderen("In Harry Potter and The Deathly Hallows, wie"+"\n"+"sterft er niet?",
                                                     "Dobby",
-                                                    "Dumbledore",
+                                                    "Voldemort",
                                                     "Hedwig",
                                                     "George Weasley",
                                                      "4e antwoord");   
@@ -601,27 +636,24 @@ public class HelloTVXlet implements Xlet, HActionListener {
                                                     "Corey Williams",
                                                      "3e antwoord");   
         break;
-     }
-     
-//     switch(goedeAntwoorden)
-//     {
-//         case 1:
-//             spriteCinefiel.changePosition();
-//             break;
-//     }
-     }
+     } 
+    }
     
     public void checkVooruitgang() //zou de doorloop of stilstaan van de positiearray moeten verzorgen
     {
     //Sprites, wanneer een antwoord gegeven is, wordt het spelbord getoond
          System.out.println("CHECKING VOORUITGANG");
          
-//     objTriviaVraag.triviaVraag.setVisible(false);
-//     objTriviaVraag.triviaAntw1.setVisible(false);
-//     objTriviaVraag.triviaAntw2.setVisible(false);
-//     objTriviaVraag.triviaAntw3.setVisible(false);
-//     objTriviaVraag.triviaAntw4.setVisible(false);
+     objTriviaVraag.triviaVraag.setVisible(false);
+     objTriviaVraag.triviaAntw1.setVisible(false);
+     objTriviaVraag.triviaAntw2.setVisible(false);
+     objTriviaVraag.triviaAntw3.setVisible(false);
+     objTriviaVraag.triviaAntw4.setVisible(false);
 
+    nextQuestionKnop.setVisible(true);
+    nextQuestionKnop.requestFocus();
+    
+    System.out.println("Check om te winnen");
      
      if(antwoordGegeven==true)
      {
@@ -631,127 +663,237 @@ public class HelloTVXlet implements Xlet, HActionListener {
      if(goedAntwoord==true) //wanneer het antwoord juist is, wordt de volgende positie sprite ge-add
      {
      System.out.println("Er is een JUIST antwoord gegeven");    
-     
      System.out.println("DE VORIGE SPRITE POS WAS NR: "+goedeAntwoorden);
 
      //SpriteCinefiel
      switch(goedeAntwoorden)
      {     
          case 0:
-             spriteCinefielIm.MoveImage(eersteXPos, eersteYPos - 75);
+             spriteCinefiel.MoveImage(eersteXPos, eersteYPosCine - 75);
              break;
 
          case 1:
-             spriteCinefielIm.MoveImage(eersteXPos - 55, eersteYPos - 75);
+             spriteCinefiel.MoveImage(eersteXPos - 55, eersteYPosCine - 75);
              break;
 
          case 2:
-             spriteCinefielIm.MoveImage(eersteXPos - 110, eersteYPos - 75);
+             spriteCinefiel.MoveImage(eersteXPos - 110, eersteYPosCine - 75);
              break;
 
          case 3:
-             spriteCinefielIm.MoveImage(eersteXPos - 175, eersteYPos - 75);
+             spriteCinefiel.MoveImage(eersteXPos - 175, eersteYPosCine - 75);
              break;
 
          case 4:
-             spriteCinefielIm.MoveImage(eersteXPos - 230, eersteYPos - 75);
+             spriteCinefiel.MoveImage(eersteXPos - 230, eersteYPosCine - 75);
              break;
 
          case 5:
-             spriteCinefielIm.MoveImage(eersteXPos - 220, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos - 220, eersteYPosCine - 145);
              break;
 
          case 6:
-             spriteCinefielIm.MoveImage(eersteXPos - 165, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos - 165, eersteYPosCine - 145);
              break;
 
          case 7:
-             spriteCinefielIm.MoveImage(eersteXPos - 110, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos - 110, eersteYPosCine - 145);
              break;
 
          case 8:
-             spriteCinefielIm.MoveImage(eersteXPos -95, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos -95, eersteYPosCine - 145);
              break;
 
          case 9:
-             spriteCinefielIm.MoveImage(eersteXPos +10, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos +10, eersteYPosCine - 145);
              break;
 
          case 10:
-             spriteCinefielIm.MoveImage(eersteXPos + 75, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos + 75, eersteYPosCine - 145);
              break;
 
          case 11:
-             spriteCinefielIm.MoveImage(eersteXPos + 130, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos + 130, eersteYPosCine - 145);
              break;
 
          case 12:
-             spriteCinefielIm.MoveImage(eersteXPos + 195, eersteYPos - 145);
+             spriteCinefiel.MoveImage(eersteXPos + 195, eersteYPosCine - 145);
              break;
 
          case 13:
-             spriteCinefielIm.MoveImage(eersteXPos + 215, eersteYPos - 210);
+             spriteCinefiel.MoveImage(eersteXPos + 215, eersteYPosCine - 210);
              break;
 
          case 14:
-             spriteCinefielIm.MoveImage(eersteXPos + 155, eersteYPos - 210);
+             spriteCinefiel.MoveImage(eersteXPos + 155, eersteYPosCine - 210);
              break;
 
          case 15:
-             spriteCinefielIm.MoveImage(eersteXPos + 95, eersteYPos - 210);
+             spriteCinefiel.MoveImage(eersteXPos + 95, eersteYPosCine - 210);
              break;
 
          case 16:
-             spriteCinefielIm.MoveImage(eersteXPos + 35, eersteYPos - 210);
+             spriteCinefiel.MoveImage(eersteXPos + 35, eersteYPosCine - 210);
              break;
 
          case 17:
-             spriteCinefielIm.MoveImage(eersteXPos, eersteYPos - 250);
+             spriteCinefiel.MoveImage(eersteXPos, eersteYPosCine - 250);
              break;
 
          case 18:
-             spriteCinefielIm.MoveImage(eersteXPos, eersteYPos - 330);
+             spriteCinefiel.MoveImage(eersteXPos, eersteYPosCine - 330);
              break;
 
          case 19:
-             spriteCinefielIm.MoveImage(eersteXPos+2, eersteYPos - 400);
+             spriteCinefiel.MoveImage(eersteXPos+2, eersteYPosCine - 400);
              break;
          }
 
-     goedeAntwoorden++;     
-     //aantalBeurten++; //voor wanneer de security sprite wordt geactiveerd (na 3 beurten)
+     goedeAntwoorden++; 
      
-     System.out.println("DE HUIDIGE SPRITE POS IS NU NR: "+goedeAntwoorden);
+     System.out.println("DE HUIDIGE CINEFIEL POS IS NU NR: "+goedeAntwoorden);
      scene.repaint();
-          
+             
      goedAntwoord = false;
      }
      
      else if(goedAntwoord ==false) //wanneer het antwoord fout is, wordt de huidige positie sprite gehouden (geen goedeAntwoorden++)
      {
      System.out.println("Er is een FOUT antwoord gegeven");
-     
-     //aantalBeurten++; //voor wanneer de security sprite wordt geactiveerd (na 3 beurten)
      }
      
-       
-     antwoordGegeven=false;
-     }
-     
-     else if(antwoordGegeven=false)
+     if(vraagnr>=4)
      {
-              try{
-     Thread.sleep(1000);
+     //Sprite Security
+     switch(securitySteps)
+     {
+         case 0:
+             spriteSecurity.MoveImage(eersteXPos, eersteYPosSecu - 75);
+         break;
+
+         case 1:
+             spriteSecurity.MoveImage(eersteXPos - 55, eersteYPosSecu - 75);
+             break;
+
+         case 2:
+             spriteSecurity.MoveImage(eersteXPos - 110, eersteYPosSecu - 75);
+             break;
+
+         case 3:
+             spriteSecurity.MoveImage(eersteXPos - 175, eersteYPosSecu - 75);
+             break;
+
+         case 4:
+             spriteSecurity.MoveImage(eersteXPos - 230, eersteYPosSecu - 75);
+             break;
+
+         case 5:
+             spriteSecurity.MoveImage(eersteXPos - 220, eersteYPosSecu - 145);
+             break;
+
+         case 6:
+             spriteSecurity.MoveImage(eersteXPos - 165, eersteYPosSecu - 145);
+             break;
+
+         case 7:
+             spriteSecurity.MoveImage(eersteXPos - 110, eersteYPosSecu - 145);
+             break;
+
+         case 8:
+             spriteSecurity.MoveImage(eersteXPos -45, eersteYPosSecu - 145);
+             break;
+
+         case 9:
+             spriteSecurity.MoveImage(eersteXPos +10, eersteYPosSecu - 145);
+             break;
+
+         case 10:
+             spriteSecurity.MoveImage(eersteXPos + 75, eersteYPosSecu - 145);
+             break;
+
+         case 11:
+             spriteSecurity.MoveImage(eersteXPos + 130, eersteYPosSecu - 145);
+             break;
+
+         case 12:
+             spriteSecurity.MoveImage(eersteXPos + 195, eersteYPosSecu - 145);
+             break;
+
+         case 13:
+             spriteSecurity.MoveImage(eersteXPos + 215, eersteYPosSecu - 210);
+             break;
+
+         case 14:
+             spriteSecurity.MoveImage(eersteXPos + 155, eersteYPosSecu - 210);
+             break;
+
+         case 15:
+             spriteSecurity.MoveImage(eersteXPos + 95, eersteYPosSecu - 210);
+             break;
+
+         case 16:
+             spriteSecurity.MoveImage(eersteXPos + 35, eersteYPosSecu - 210);
+             break;
+
+         case 17:
+             spriteSecurity.MoveImage(eersteXPos, eersteYPosSecu - 250);
+             break;
+
+         case 18:
+             spriteSecurity.MoveImage(eersteXPos+2, eersteYPosSecu - 365);
+             break;
+
+         case 19:
+             spriteSecurity.MoveImage(eersteXPos, eersteYPosSecu - 400);
+             break;
      }
-     catch(InterruptedException ex){
-     Thread.currentThread().interrupt();
+     
+     securitySteps++;
+
+     System.out.println("DE HUIDIGE SECURITY POS IS NU NR: "+securitySteps);
+     System.out.println("DE HUIDIGE CINEFIEL POS IS NU NR: "+goedeAntwoorden);
+     
+     scene.repaint();
+     
+     checkWin(); //Ingehaald door Security?
      }
-     objTriviaVraag.triviaVraag.setVisible(true);
-     objTriviaVraag.triviaAntw1.setVisible(true);
-     objTriviaVraag.triviaAntw2.setVisible(true);
-     objTriviaVraag.triviaAntw3.setVisible(true);
-     objTriviaVraag.triviaAntw4.setVisible(true);
+     
+     antwoordGegeven=false;
+     vraagnr++;
      }
     }
+    
+public void checkWin()
+{
+if(securitySteps==goedeAntwoorden)
+{
+//Game Over
+    System.out.println("Game Over");
+    backgroundBord.setVisible(false);
+     gameOverScreen = new ImageComponent("Game Over Screen.png",0,0,(int)scWidth, (int)scHeight);
+     scene.add(gameOverScreen);
+     nextQuestionKnop.setVisible(false);
+     spriteCinefiel.setVisible(false);
+     spriteSecurity.setVisible(false);
+     stopKnop.setVisible(true);
+     stopKnop.requestFocus();
+     scene.repaint(); //wat doet dit?
+}
+
+//WIN
+if(goedeAntwoorden>20)
+{
+    System.out.println("You've WON");
+    backgroundBord.setVisible(false);
+     winScreen = new ImageComponent("Win Screen.png",0,0,(int)scWidth, (int)scHeight);
+     scene.add(winScreen);
+     nextQuestionKnop.setVisible(false);
+     spriteCinefiel.setVisible(false);
+     spriteSecurity.setVisible(false);
+     stopKnop.setVisible(true);
+     stopKnop.requestFocus();
+     scene.repaint(); //wat doet dit?
+}
+}
 }
 

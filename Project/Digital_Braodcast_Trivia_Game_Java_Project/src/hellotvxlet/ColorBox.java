@@ -1,15 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package hellotvxlet;
 
-import javax.tv.xlet.*;
 import org.dvb.ui.*;
 import java.awt.*;
-import java.awt.event.*;
-import org.havi.ui.event.*;
 import org.havi.ui.*;
 
 public class ColorBox extends HComponent {

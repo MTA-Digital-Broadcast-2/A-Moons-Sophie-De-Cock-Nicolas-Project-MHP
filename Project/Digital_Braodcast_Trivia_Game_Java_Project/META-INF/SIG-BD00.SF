@@ -1,29 +1,53 @@
 Signature-Version: 1.0
 Created-By: 1.6.0_16 (Sun Microsystems Inc.)
 BDJ-Signature-Version: 1.0
-SHA1-Digest-Manifest: FtqWdSpLk9neQBVQ9G3c9L7fHhw=
-
-Name: hellotvxlet/HelloTVXlet.class
-SHA1-Digest: jChaIGfEs+RjNgOsS1oEXZEaB78=
+SHA1-Digest-Manifest: Ol4aAq9pm+ZxBBi6HKB5gd+XMeQ=
 
 Name: hellotvxlet/MijnTriviavraag.class
-SHA1-Digest: PKTL5jlGXIMUcwOBVz8Mgcqn4CQ=
+SHA1-Digest: Sra/u8XxD2EjO376jxlQb2ILBfY=
+
+Name: Howard_Drew_Theatre_Layout.png
+SHA1-Digest: nkNV1mW53+S2gQcbxK7nlyekp6o=
+
+Name: Win Screen.png
+SHA1-Digest: 6hnWT2nXwHFHYeV6QA2zzN2uH48=
+
+Name: hellotvxlet/ImageComponent.class
+SHA1-Digest: 2trW16cWV1cGQwZMt5D/fboS7HQ=
+
+Name: hellotvxlet/SpriteSecurity.class
+SHA1-Digest: UVqj6Kr6bNZdc5QEGTHCTltMQUs=
+
+Name: hellotvxlet/HelloTVXlet.class
+SHA1-Digest: nt9QLYagWZqfZ7EQFYfOJTF2aaU=
+
+Name: Security sprite.png
+SHA1-Digest: bwVAG+zBrED9TxnnyUHTTrX0gDA=
 
 Name: hellotvxlet/SpriteCinefiel.class
 SHA1-Digest: 33r/FTC8c7aKubocYs8/b0EQ96I=
 
+Name: Game Over Screen.png
+SHA1-Digest: m+pv0vPrP53dluGv+prW41LhxdA=
+
+Name: Cinefieltje sprite.png
+SHA1-Digest: 2VWq3YYX9jxyN8bdWfA+GZKhrkI=
+
 Name: hellotvxlet/SolidColorComponent.class
 SHA1-Digest: G7shJHWIZAt/5/8ujUQ1hVGE+WE=
-
-Name: hellotvxlet/ImageComponent.class
-SHA1-Digest: kdQLjmYyC6ThzYSFVdL1FG0OfLA=
 
 Name: hellotvxlet/bluray.HelloTVXlet.perm
 SHA1-Digest: 84ZO/rYCyy0JStmaLbg1GDVEFhQ=
 
-Name: hellotvxlet/ColorBox.class
-SHA1-Digest: VoG8IYxCFwJnZ/HtpVxBfzNOVUY=
+Name: gordijn.png
+SHA1-Digest: R1XlT7LhzpK/tgi+KVWCCLn6e/M=
 
-Name: hellotvxlet/SpriteSecurity.class
-SHA1-Digest: LiR/X28v/jG/uP/IDA2eVZRQBSM=
+Name: hellotvxlet/ColorBox.class
+SHA1-Digest: t5ciYPg2obH6A8zf3jlY91jiKys=
+
+Name: Game Over.png
+SHA1-Digest: t6VOH+GZPPFqiYX9vQVIeqn3ocg=
+
+Name: gordijn handleiding.png
+SHA1-Digest: 0pbKX2U4DvxmsGgumEEDSxQyUEo=
 

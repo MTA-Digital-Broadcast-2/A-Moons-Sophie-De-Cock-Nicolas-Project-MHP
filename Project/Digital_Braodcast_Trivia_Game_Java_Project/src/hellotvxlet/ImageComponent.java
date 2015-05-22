@@ -54,6 +54,11 @@ public void MoveImage (int x, int y)
 this.setBounds(x,y,bitmap.getWidth(null),bitmap.getWidth(null));
 }
 
+//public void ChangeImage(String newBitmap) //laadt image niet op tijd
+//{
+// bitmap = this.getToolkit().getImage(newBitmap);
+//}
+
 public void paint (Graphics g)
 {
 g.drawImage(bitmap, 0, 0, null);
