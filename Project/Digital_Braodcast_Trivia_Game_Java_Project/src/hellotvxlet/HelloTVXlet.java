@@ -374,7 +374,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      switch(vraagnr)
      {
          case 1: 
-                   objTriviaVraag.VragenVeranderen("Wie was het 1ste personage dat sprak in Star Wars: A New Hope?",
+                   objTriviaVraag.VragenVeranderen("Wie was het 1ste personage dat sprak in"+"\n"+"Star Wars: A New Hope?",
                                                     "Luke Skywalker",
                                                     "Prinses Leia",
                                                     "C3PO",
