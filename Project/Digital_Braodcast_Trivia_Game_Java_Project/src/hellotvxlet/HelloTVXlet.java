@@ -594,7 +594,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
                                                     "Fret",
                                                     "Capucijnaapje",
                                                     "Wasbeer",
-                                                     "1e antwoord");   
+                                                     "4e antwoord");   
         break;
         
        case 23: 
