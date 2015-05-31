@@ -10,10 +10,9 @@ import java.awt.*;
 //voor de acties die je wilt uitvoeren
 import org.havi.ui.event.*;
 import java.awt.event.*;
-//import javax.sound.sampled.AudioInputStream;
-//import javax.sound.sampled.AudioSystem;
-//import javax.sound.sampled.Clip;
-//import java.io.File; //Muziek is voor later misschien
+import java.util.Timer;
+import java.util.TimerTask; //voor timer
+//import org.havi.ui.HSound.*; //voor eventuele muziek
 
 public class HelloTVXlet implements Xlet, HActionListener {
 
@@ -65,7 +64,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
     MijnTriviavraag objTriviaVraag = new MijnTriviavraag();
        
     public int vraagnr = 1;
-
+    
+// HSound backgroundMusicMenu;
+// HSound backgroundMusicGame;    
   
     public HelloTVXlet() { }
 
@@ -112,7 +113,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      backKnop.setBackgroundMode(HVisible.BACKGROUND_FILL);
      
      //Next Question
-     nextQuestionKnop = new HTextButton("Volgende vraag");
+     nextQuestionKnop = new HTextButton("Next");
      nextQuestionKnop.setLocation(300,480);
      nextQuestionKnop.setSize(130,50);
      nextQuestionKnop.setBackground(new DVBColor(0,0,0,179));
@@ -147,14 +148,14 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      goedeAntwoorden=0; //moet posArray Cinefiel opvolgen
      securitySteps=0; //moet posArray Security opvolgen
-     
-     }
+          }
 
     public void startXlet() {
         if(debug){
             System.out.println("Xlet starten");
         }
-     scene.validate();
+     
+      scene.validate();
      scene.setVisible(true);
      
      //Acties laten uitvoeren
@@ -410,10 +411,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
                                                     "Roxy Hart",
                                                     "Mary Summer",
                                                     "Barbara Lee",
-                                                     "2e antwoord");
-             
-             spriteSecurity.setVisible(true); //Let's go!
-             
+                                                     "2e antwoord");             
          break;
          
          case 5: 
@@ -433,7 +431,10 @@ public class HelloTVXlet implements Xlet, HActionListener {
                                                     "Dr. Frankenschwein",
                                                     "Dr. Frankenfurter",
                                                     "Dr. Frankenfrey",
-                                                     "3e antwoord");   
+                                                     "3e antwoord"); 
+                          
+             spriteSecurity.setVisible(true); //Let's go!
+
          break;
          
          case 7: 
@@ -549,12 +550,12 @@ public class HelloTVXlet implements Xlet, HActionListener {
         
        case 18: 
              
-             objTriviaVraag.VragenVeranderen("Wat is de Cornetto Trilogy?",
-                                                    "3 Britse films met"+"\n"+"3 verschillende cornetto's",
-                                                    "De 3 slechtste"+"\n"+"Italiaanse westerns",
-                                                    "De 3 meligste Spaanse"+"\n"+"romantische films",
-                                                    "Dat bestaat niet!",
-                                                     "1e antwoord");   
+             objTriviaVraag.VragenVeranderen("Wat was het adres waar Nemo naartoe was gebracht in"+"\n"+"Finding Nemo?",
+                                                    "M. Usselman 66 Havayo Way,"+"\n"+"Sydney",
+                                                    "P. Sherman 42 Wallaby Way,"+"\n"+"Sydney",
+                                                    "S. Shellman 69 Kangaroo Way,"+"\n"+"Sydney",
+                                                    "V. Sherman 72 Hollaway Street,"+"\n"+"Sydney",
+                                                     "2e antwoord");   
         break;
         
        case 19: 
@@ -635,6 +636,47 @@ public class HelloTVXlet implements Xlet, HActionListener {
                                                     "Micheal Jordan",
                                                     "Corey Williams",
                                                      "3e antwoord");   
+        break;
+        
+       case 27: 
+             
+             objTriviaVraag.VragenVeranderen("Wat is de Cornetto Trilogy?",
+                                                    "3 Britse films met"+"\n"+"3 verschillende cornetto's",
+                                                    "De 3 slechtste"+"\n"+"Italiaanse westerns",
+                                                    "De 3 meligste Spaanse"+"\n"+"romantische films",
+                                                    "Dat bestaat niet!",
+                                                     "1e antwoord");  
+
+        break;
+        
+       case 28: 
+             
+             objTriviaVraag.VragenVeranderen("Welk dier werd er mismeesterd in The Godfather?",
+                                                    "Ezel",
+                                                    "Kat",
+                                                    "Hazewind hond",
+                                                    "Paard",
+                                                     "4e antwoord");   
+        break;
+        
+       case 29: 
+             
+             objTriviaVraag.VragenVeranderen("Waren ze in Inception op het einde nu echt nog in een Inception?",
+                                                    "Ja",
+                                                    "Nee",
+                                                    "Olifanten",
+                                                    "Stomme troltol",
+                                                     "4e antwoord");   
+        break;
+        
+       case 30: 
+             
+             objTriviaVraag.VragenVeranderen("Hoe heet het allerkleinste grut in Despicable Me?",
+                                                    "Mary Jane",
+                                                    "Agnes",
+                                                    "Mathilda",
+                                                    "Josephine",
+                                                     "2e antwoord");   
         break;
      } 
     }
@@ -762,7 +804,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      System.out.println("Er is een FOUT antwoord gegeven");
      }
      
-     if(vraagnr>=4)
+     if(vraagnr>=6)
      {
      //Sprite Security
      switch(securitySteps)
@@ -860,7 +902,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
      
      antwoordGegeven=false;
      vraagnr++;
-     }
+     }    
     }
     
 public void checkWin()
